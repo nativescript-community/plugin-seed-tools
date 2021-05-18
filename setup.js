@@ -1,4 +1,5 @@
 const fs = require('fs');
+const fse = require('fs-extra');
 const exec = require('child_process').exec;
 
 const framework = __dirname + '/../../package.json';
@@ -45,6 +46,15 @@ try {
                     changed = true;
                 }
             }
+        }
+
+        const appResourcesDemo = __dirname + '/../../App_Resources';
+        const appResourcesSnippets = __dirname + '/../../../demo-snippets/App_Resources';
+
+        // Copy App_Resources from snippets to demo
+        if (fs.existsSync(appResourcesSnippets) && fs.existsSync(appResourcesDemo)) {
+            console.log('Copying App_Resouces from demo-snippets to demo...');
+            fse.copySync(appResourcesSnippets, appResourcesDemo, { recursive: true });
         }
 
         // Save changes to demo package.json
