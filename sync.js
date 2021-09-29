@@ -1,4 +1,5 @@
 const fs = require('fs');
+const crypto = require('crypto');
 const { argv } = require('yargs').option('w', {
     alias: 'write',
     default: false,
@@ -10,41 +11,113 @@ const { write } = argv;
 
 const changes = {
     devDependencies: {},
-    scripts: {}
+    scripts: {},
+    ntl: {}
 };
 
 const pluginPackageJSON = JSON.parse(fs.readFileSync('./package.json'));
-const toolsPackageJSON = JSON.parse(fs.readFileSync('./tools/package.json'));
 
-function checkAndUpdate(field) {
-    for (const [key, value] of Object.entries(toolsPackageJSON[field])) {
+function checkAndUpdate(json, field) {
+    if (pluginPackageJSON[field] === undefined) {
+        pluginPackageJSON[field] = {};
+    }
+
+    for (const [key, value] of Object.entries(json)) {
         if (typeof pluginPackageJSON[field][key] === 'undefined') {
-            changes[field][key] = value;
             if (write) {
                 pluginPackageJSON[field][key] = value;
             }
-        } else if (value !== pluginPackageJSON[field][key]) {
-            changes[field][key] = value;
-            if (write) {
+        } else if (JSON.stringify(value) !== JSON.stringify(pluginPackageJSON[field][key])) {
+            if (typeof value === 'object') {
+                pluginPackageJSON[field] = {};
+                pluginPackageJSON[field][key] = value;
+            } else {
                 pluginPackageJSON[field][key] = value;
             }
         }
     }
 }
 
-checkAndUpdate('devDependencies');
-checkAndUpdate('scripts');
-
-if (Object.keys(changes.devDependencies).length > 0 || Object.keys(changes.scripts).length > 0) {
-    if (write) {
-        console.log('The following changes are being made to package.json');
-        console.log(changes);
-        fs.writeFileSync('./package.json', JSON.stringify(pluginPackageJSON, 0, 4));
-    } else {
-        console.log('These are the changes that are going to be written:');
-        console.log(changes);
-        console.log('To write these changes run `npm run sync`');
+function deleteProperty(obj, match) {
+    delete obj[match];
+    for (const v of Object.values(obj)) {
+        if (v instanceof Object) {
+            deleteProperty(v, match);
+        }
     }
+}
+
+function compareFile(file1, file2) {
+    const file1Content = fs.readFileSync(file1);
+    const file2Content = fs.readFileSync(file2);
+
+    const hash1 = crypto.createHash('md5').update(file1Content).digest('hex');
+    const hash2 = crypto.createHash('md5').update(file2Content).digest('hex');
+
+    return hash1 === hash2;
+}
+
+fs.readdirSync('./tools/common').forEach((file) => {
+    if (!compareFile(`./${file}`, `./tools/common/${file}`)) {
+        console.log(`File: ${file} is different from common version.`);
+        if (write) {
+            console.log('Copying common file over.');
+            fs.copyFileSync(`./tools/common/${file}`, `./${file}`);
+        }
+    }
+});
+
+const pluginConfig = fs.readFileSync('config.json');
+const pluginConfigJson = JSON.parse(pluginConfig);
+
+const pluginType = pluginConfigJson['type'];
+const pluginAngular = pluginConfigJson['angular'];
+const pluginDemos = pluginConfigJson['demos'];
+
+const devDependenciesJSON = JSON.parse(fs.readFileSync('./tools/devDependencies.json'));
+checkAndUpdate(devDependenciesJSON, 'devDependencies');
+
+const ntlJSON = JSON.parse(fs.readFileSync('./tools/ntl.json'));
+checkAndUpdate(ntlJSON, 'ntl');
+
+if (!pluginAngular) {
+    deleteProperty(pluginPackageJSON, 'build.angular');
+    deleteProperty(pluginPackageJSON, 'build.all');
+}
+
+if (pluginType === 'single') {
+    const scriptsJSON = JSON.parse(fs.readFileSync('./tools/scripts-single.json'));
+    checkAndUpdate(scriptsJSON, 'scripts');
+} else if (pluginType === 'monorepo') {
+    const scriptsJSON = JSON.parse(fs.readFileSync('./tools/scripts-monorepo.json'));
+    checkAndUpdate(scriptsJSON, 'scripts');
+}
+
+if (!pluginDemos.includes('ng')) {
+    deleteProperty(pluginPackageJSON, 'demo.ng.android');
+    deleteProperty(pluginPackageJSON, 'demo.ng.ios');
+}
+
+if (!pluginDemos.includes('react')) {
+    deleteProperty(pluginPackageJSON, 'demo.react.android');
+    deleteProperty(pluginPackageJSON, 'demo.react.ios');
+}
+
+if (!pluginDemos.includes('svelte')) {
+    deleteProperty(pluginPackageJSON, 'demo.svelte.android');
+    deleteProperty(pluginPackageJSON, 'demo.svelte.ios');
+}
+
+if (!pluginDemos.includes('vue')) {
+    deleteProperty(pluginPackageJSON, 'demo.vue.android');
+    deleteProperty(pluginPackageJSON, 'demo.vue.ios');
+}
+
+if (write) {
+    console.log('The following changes are being made to package.json');
+    fs.writeFileSync('./package.json', JSON.stringify(pluginPackageJSON, 0, 4));
 } else {
-    console.log('There are no changes to be made.');
+    console.log('These are the changes that are going to be written:');
+    console.log(pluginPackageJSON);
+    console.log('To write these changes run `npm run sync`');
 }
