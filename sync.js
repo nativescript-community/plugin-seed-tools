@@ -70,27 +70,17 @@ fs.readdirSync('./tools/common').forEach((file) => {
 const pluginConfig = fs.readFileSync('config.json');
 const pluginConfigJson = JSON.parse(pluginConfig);
 
-const pluginType = pluginConfigJson['type'];
 const pluginAngular = pluginConfigJson['angular'];
 const pluginDemos = pluginConfigJson['demos'];
 
-const devDependenciesJSON = JSON.parse(fs.readFileSync('./tools/devDependencies.json'));
-checkAndUpdate(devDependenciesJSON, 'devDependencies');
-
-const ntlJSON = JSON.parse(fs.readFileSync('./tools/ntl.json'));
-checkAndUpdate(ntlJSON, 'ntl');
+const commonPackageJSON = JSON.parse(fs.readFileSync('./tools/package.json'));
+checkAndUpdate(commonPackageJSON['devDependencies'], 'devDependencies');
+checkAndUpdate(commonPackageJSON['scripts'], 'scripts');
+checkAndUpdate(commonPackageJSON['ntl'], 'ntl');
 
 if (!pluginAngular) {
     deleteProperty(pluginPackageJSON, 'build.angular');
     deleteProperty(pluginPackageJSON, 'build.all');
-}
-
-if (pluginType === 'single') {
-    const scriptsJSON = JSON.parse(fs.readFileSync('./tools/scripts-single.json'));
-    checkAndUpdate(scriptsJSON, 'scripts');
-} else if (pluginType === 'monorepo') {
-    const scriptsJSON = JSON.parse(fs.readFileSync('./tools/scripts-monorepo.json'));
-    checkAndUpdate(scriptsJSON, 'scripts');
 }
 
 if (!pluginDemos.includes('ng')) {
