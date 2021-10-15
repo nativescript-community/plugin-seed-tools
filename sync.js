@@ -58,7 +58,13 @@ function compareFile(file1, file2) {
 }
 
 fs.readdirSync('./tools/common').forEach((file) => {
-    if (!compareFile(`./${file}`, `./tools/common/${file}`)) {
+    if (!fs.existsSync(`./${file}`)) {
+        if (write) {
+            console.log('Copying common file over.');
+            fs.copyFileSync(`./tools/common/${file}`, `./${file}`);
+        }
+    }
+    else if (!compareFile(`./${file}`, `./tools/common/${file}`)) {
         console.log(`File: ${file} is different from common version.`);
         if (write) {
             console.log('Copying common file over.');
