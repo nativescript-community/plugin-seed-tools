@@ -50,6 +50,7 @@ packages/**/angular/*.json
 packages/*.ngsummary.json
 packages/*.metadata.json
 packages/angular
+packages/typings
 pnpm-lock.yaml
 
 /blueprint.md

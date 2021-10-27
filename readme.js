@@ -29,7 +29,7 @@ if (enabled) {
 
             const singlePackageMarkdown = `{{ load:packages/${package}/README.md }}`;
 
-            if (packagesCount > 0) {
+            if (packagesCount > 1) {
                 readmeOutput += multiPackageMarkdown;
             } else {
                 readmeOutput += singlePackageMarkdown;
