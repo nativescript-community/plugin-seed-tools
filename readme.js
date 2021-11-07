@@ -17,15 +17,15 @@ if (enabled) {
         let readmeOutput = "";
 
         if (packagesCount > 1) {
-            readmeOutput += "This monorepo contains multiple packages:\n\n";
+            readmeOutput += "This monorepo contains multiple packages:<br><br>";
         }
 
         for (const package of files) {
             const multiPackageMarkdown = `<details>
-    <summary><b>${package}</b></summary>
+<summary><b>${package}</b></summary>
 
-    {{ load:packages/${package}/README.md }}
-    </details>`;
+{{ load:packages/${package}/README.md }}
+</details>`;
 
             const singlePackageMarkdown = `{{ load:packages/${package}/README.md }}`;
 
