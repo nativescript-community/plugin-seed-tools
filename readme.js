@@ -1,4 +1,4 @@
-const fs = require('fs'); 
+const fs = require('fs');
 const exec = require('child_process').exec;
 
 const pluginConfig = fs.readFileSync('config.json');
@@ -6,18 +6,18 @@ const pluginConfigJson = JSON.parse(pluginConfig);
 
 let enabled = false;
 
-if ("readme" in pluginConfigJson) {
+if ('readme' in pluginConfigJson) {
     enabled = pluginConfigJson['readme'];
 }
 
 if (enabled) {
-    fs.readdir('./packages', (error, files) => { 
+    fs.readdir('./packages', (error, files) => {
         const packagesCount = files.length;
 
-        let readmeOutput = "";
+        let readmeOutput = '';
 
         if (packagesCount > 1) {
-            readmeOutput += "This monorepo contains multiple packages:<br><br>";
+            readmeOutput += 'This monorepo contains multiple packages:<br><br>';
         }
 
         for (const package of files) {
@@ -37,18 +37,18 @@ if (enabled) {
         }
 
         try {
-            fs.writeFileSync('blueprint.md', readmeOutput)
+            fs.writeFileSync('blueprint.md', readmeOutput);
         } catch (err) {
-            console.error(err)
+            console.error(err);
         }
 
-        exec("./node_modules/.bin/readme generate -c ./tools/readme/blueprint.json", function(err, stdout, stderr) {
+        exec('./node_modules/.bin/readme generate -c ./tools/readme/blueprint.json', function (err, stdout, stderr) {
             if (err) {
-            console.log(stderr)
+                console.log(stderr);
             }
             console.log(stdout);
         });
     });
 } else {
-    console.log(`README generation is disabled. To enable, add "readme": true to the config.json`);
+    console.log('README generation is disabled. To enable, add "readme": true to the config.json');
 }
