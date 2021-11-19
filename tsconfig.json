@@ -24,9 +24,9 @@
         "sourceRoot": "../src",
         "baseUrl": "../",
         "outDir": "../packages",
-        "plugins": [{ "transform": "@nativescript/webpack/dist/transformers/NativeClass", "type": "raw" }],
+        "plugins": [{ "transform": "@nativescript/webpack/dist/transformers/NativeClass", "type": "raw" }]
     },
     "include": ["../src/**/*", "../demo-snippets/**/*", "../references.d.ts", "../demo-vue/types"],
-    "exclude": ["../node_modules"],
+    "exclude": ["node_modules"],
     "compileOnSave": false
 }
