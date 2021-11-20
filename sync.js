@@ -79,7 +79,6 @@ const pluginAngular = pluginConfigJson['angular'];
 const pluginDemos = pluginConfigJson['demos'];
 
 const commonPackageJSON = JSON.parse(fs.readFileSync('./tools/package.json'));
-checkAndUpdate(commonPackageJSON['devDependencies'], 'devDependencies');
 checkAndUpdate(commonPackageJSON['scripts'], 'scripts');
 checkAndUpdate(commonPackageJSON['ntl'], 'ntl');
 
