@@ -98,4 +98,4 @@ if (!pluginDemos.includes('vue')) {
 }
 
 console.log('Common files and package.json have been synced.');
-fs.writeFileSync('./package.json', JSON.stringify(pluginPackageJSON, 0, 4));
+fs.writeFileSync('./package.json', JSON.stringify(pluginPackageJSON, 0, 4) + '\n');
