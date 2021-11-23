@@ -82,10 +82,8 @@
         "setup": "npm run submodules && ts-patch install",
         "start": "./node_modules/.bin/ntl -A -s 15 -o",
         "submodules": "git submodule update --init",
-        "sync": "node ./tools/sync.js -w",
-        "tsc": "cpy '**/*.d.ts' '../plugin' --parents --cwd=src && tsc -skipLibCheck -d",
-        "update": "node ./tools/update.js",
-        "watch": "npm run tsc -- -w"
+        "sync": "node ./tools/sync.js",
+        "update": "node ./tools/update.js"
     },
     "ntl": {
         "descriptions": {
