@@ -26,7 +26,7 @@
         "outDir": "../packages",
         "plugins": [{ "transform": "@nativescript/webpack/dist/transformers/NativeClass", "type": "raw" }]
     },
-    "include": ["../src/**/*", "../references.d.ts", "../demo-vue/types"],
+    "include": ["../src/**/*", "../references.d.ts"],
     "exclude": ["node_modules"],
     "compileOnSave": false
 }
