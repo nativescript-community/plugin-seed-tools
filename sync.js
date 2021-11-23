@@ -1,13 +1,5 @@
 const fs = require('fs');
 const crypto = require('crypto');
-const { argv } = require('yargs').option('w', {
-    alias: 'write',
-    default: false,
-    describe: 'Write synced plugin to package.json',
-    type: 'boolean'
-});
-
-const { write } = argv;
 
 const changes = {
     devDependencies: {},
@@ -24,9 +16,7 @@ function checkAndUpdate(json, field) {
 
     for (const [key, value] of Object.entries(json)) {
         if (typeof pluginPackageJSON[field][key] === 'undefined') {
-            if (write) {
-                pluginPackageJSON[field][key] = value;
-            }
+            pluginPackageJSON[field][key] = value;
         } else if (JSON.stringify(value) !== JSON.stringify(pluginPackageJSON[field][key])) {
             if (typeof value === 'object') {
                 pluginPackageJSON[field] = {};
@@ -59,16 +49,12 @@ function compareFile(file1, file2) {
 
 fs.readdirSync('./tools/common').forEach((file) => {
     if (!fs.existsSync(`./${file}`)) {
-        if (write) {
-            console.log('Copying common file over.');
-            fs.copyFileSync(`./tools/common/${file}`, `./${file}`);
-        }
+        console.log('Copying common file over.');
+        fs.copyFileSync(`./tools/common/${file}`, `./${file}`);
     } else if (!compareFile(`./${file}`, `./tools/common/${file}`)) {
         console.log(`File: ${file} is different from common version.`);
-        if (write) {
-            console.log('Copying common file over.');
-            fs.copyFileSync(`./tools/common/${file}`, `./${file}`);
-        }
+        console.log('Copying common file over.');
+        fs.copyFileSync(`./tools/common/${file}`, `./${file}`);
     }
 });
 
@@ -111,11 +97,5 @@ if (!pluginDemos.includes('vue')) {
     deleteProperty(pluginPackageJSON, 'demo.vue.clean');
 }
 
-if (write) {
-    console.log('The following changes are being made to package.json');
-    fs.writeFileSync('./package.json', JSON.stringify(pluginPackageJSON, 0, 4));
-} else {
-    console.log('These are the changes that are going to be written:');
-    console.log(pluginPackageJSON);
-    console.log('To write these changes run `npm run sync`');
-}
+console.log('Common files and package.json have been synced.');
+fs.writeFileSync('./package.json', JSON.stringify(pluginPackageJSON, 0, 4));
