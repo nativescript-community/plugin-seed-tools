@@ -79,7 +79,6 @@ const pluginAngular = pluginConfigJson['angular'];
 const pluginDemos = pluginConfigJson['demos'];
 
 const commonPackageJSON = JSON.parse(fs.readFileSync('./tools/package.json'));
-checkAndUpdate(commonPackageJSON['devDependencies'], 'devDependencies');
 checkAndUpdate(commonPackageJSON['scripts'], 'scripts');
 checkAndUpdate(commonPackageJSON['ntl'], 'ntl');
 
@@ -91,21 +90,25 @@ if (!pluginAngular) {
 if (!pluginDemos.includes('ng')) {
     deleteProperty(pluginPackageJSON, 'demo.ng.android');
     deleteProperty(pluginPackageJSON, 'demo.ng.ios');
+    deleteProperty(pluginPackageJSON, 'demo.ng.clean');
 }
 
 if (!pluginDemos.includes('react')) {
     deleteProperty(pluginPackageJSON, 'demo.react.android');
     deleteProperty(pluginPackageJSON, 'demo.react.ios');
+    deleteProperty(pluginPackageJSON, 'demo.react.clean');
 }
 
 if (!pluginDemos.includes('svelte')) {
     deleteProperty(pluginPackageJSON, 'demo.svelte.android');
     deleteProperty(pluginPackageJSON, 'demo.svelte.ios');
+    deleteProperty(pluginPackageJSON, 'demo.svelte.clean');
 }
 
 if (!pluginDemos.includes('vue')) {
     deleteProperty(pluginPackageJSON, 'demo.vue.android');
     deleteProperty(pluginPackageJSON, 'demo.vue.ios');
+    deleteProperty(pluginPackageJSON, 'demo.vue.clean');
 }
 
 if (write) {
