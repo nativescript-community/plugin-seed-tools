@@ -58,6 +58,11 @@
         "yargs": "^17.2.1",
         "zone.js": "~0.11.4"
     },
+    "dependenciesMeta": {
+        "@nativescript-community/plugin-seed-tools": {
+            "injected": true
+        }
+    },
     "scripts": {
         "build": "lerna run build",
         "build.angular": "lerna run build.angular",
