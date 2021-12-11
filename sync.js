@@ -71,7 +71,7 @@ checkAndUpdate(commonPackageJSON['dependenciesMeta'], 'dependenciesMeta');
 
 if (!pluginAngular) {
     deleteProperty(pluginPackageJSON, 'build.angular');
-    deleteProperty(pluginPackageJSON, 'build.all');
+    pluginPackageJSON['scripts']['build.all'] = 'npm run build';
 }
 
 if (!pluginDemos.includes('ng')) {
