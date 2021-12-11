@@ -1,3 +1,4 @@
+const ignoreWarnings = new Set(['a11y-no-onchange', 'a11y-label-has-associated-control']);
 module.exports = {
     extends: ['plugin:prettier/recommended', 'plugin:vue/essential', 'plugin:react/recommended'],
     plugins: ['prettier', '@typescript-eslint', 'svelte3', 'react', 'react-hooks'],
@@ -9,7 +10,7 @@ module.exports = {
         },
         ecmaVersion: 2019,
         sourceType: 'module',
-        extraFileExtensions: ['.vue', '.svelte'],
+        extraFileExtensions: ['.vue'],
         parser: {
             vue: 'vue-eslint-parser',
             tsx: '@typescript-eslint/parser',
@@ -32,6 +33,8 @@ module.exports = {
         }
     ],
     settings: {
+        'svelte3/ignore-warnings': (w) => ignoreWarnings.has(w && w.code),
+        'svelte3/typescript': true, // load TypeScript as peer dependency
         react: {
             createClass: 'createReactClass', // Regex for Component Factory to use,
             // default to "createReactClass"
