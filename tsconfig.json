@@ -20,6 +20,7 @@
         "noImplicitUseStrict": true,
         "noFallthroughCasesInSwitch": true,
         "types": ["node", "svelte", "vue"],
+        "typeRoots": ["./node_modules/@types", "../node_modules/@types"],
         "skipLibCheck": true,
         "sourceRoot": "../src",
         "baseUrl": "../",
