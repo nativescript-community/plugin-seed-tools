@@ -20,14 +20,14 @@
         "noImplicitUseStrict": true,
         "noFallthroughCasesInSwitch": true,
         "types": ["node", "svelte", "vue"],
-        "typeRoots": ["./node_modules/@types", "../node_modules/@types"],
+        "typeRoots": ["./node_modules", "../node_modules"],
         "skipLibCheck": true,
         "sourceRoot": "../src",
         "baseUrl": "../",
         "outDir": "../packages",
         "plugins": [{ "transform": "@nativescript/webpack/dist/transformers/NativeClass", "type": "raw" }]
     },
-    "include": ["../src/**/*", "../references.d.ts"],
+    "include": ["../src/**/*", "../references.d.ts", "../demo-snippets/**/*", "../demo-vue/types"],
     "exclude": ["node_modules"],
     "compileOnSave": false
 }
