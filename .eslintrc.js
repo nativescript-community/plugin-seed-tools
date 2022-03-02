@@ -79,6 +79,7 @@ module.exports = {
         'react/prop-types': 'off',
         'prettier/prettier': 'warn',
         'vue/custom-event-name-casing': 'off',
+        'vue/multi-word-component-names': 'off',
         // '@nativescript/no-nativescript-angular-imports': 'warn',
         // '@nativescript/no-tns-core-modules-imports': 'warn',
         // '@nativescript/no-duplicate-ns-imports': 'warn',
