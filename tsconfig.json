@@ -10,6 +10,7 @@
         "lib": ["es2017", "dom"],
         "sourceMap": true,
         "pretty": true,
+        "jsx": "react",
         "allowUnreachableCode": false,
         "allowUnusedLabels": false,
         "noEmitHelpers": true,
