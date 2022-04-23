@@ -1,29 +1,52 @@
 const ignoreWarnings = new Set(['a11y-no-onchange', 'a11y-label-has-associated-control']);
 module.exports = {
-    extends: ['plugin:prettier/recommended', 'plugin:vue/essential', 'plugin:react/recommended'],
-    plugins: ['prettier', '@typescript-eslint', 'svelte3', 'react', 'react-hooks'],
-    parser: 'vue-eslint-parser',
+    extends: ['plugin:prettier/recommended'],
+    plugins: ['prettier', '@typescript-eslint'],
     ignorePatterns: ['package-lock.json', 'pnpm-lock.yaml', '**/node_modules', '**/patforms', 'bundle.js', 'vendor.js'],
+    parser: '@typescript-eslint/parser',
     parserOptions: {
         ecmaFeatures: {
             jsx: true
         },
         ecmaVersion: 2019,
         sourceType: 'module',
-        extraFileExtensions: ['.vue'],
-        parser: {
-            vue: 'vue-eslint-parser',
-            tsx: '@typescript-eslint/parser',
-            ts: '@typescript-eslint/parser',
-            js: '@typescript-eslint/parser',
-            svelte: '@typescript-eslint/parser'
-        },
         project: 'tsconfig.eslint.json',
         warnOnUnsupportedTypeScriptVersion: false,
         tsconfigRootDir: __dirname
     },
     overrides: [
-        { files: '*.svelte', processor: 'svelte3/svelte3' },
+        {files: ['**/*.tsx'], plugins: ['prettier', '@typescript-eslint', 'react', 'react-hooks'],
+        rules: {
+            'react/display-name': 'off',
+            'react-hooks/rules-of-hooks': 'error',
+            'react-hooks/exhaustive-deps': 'warn',
+            'react/prop-types': 'off',
+        }},
+        {
+            files: ['**/*.vue'],
+            parser: 'vue-eslint-parser',
+            parserOptions: {
+                parser: {
+                    ts: '@typescript-eslint/parser',
+                    js: '@typescript-eslint/parser',
+                    '<template>': 'espree'
+                },
+                ecmaVersion: 2019,
+                sourceType: 'module',
+                project: 'tsconfig.eslint.json',
+                warnOnUnsupportedTypeScriptVersion: false,
+                extraFileExtensions: ['.vue'],
+                tsconfigRootDir: __dirname
+            },
+            extends: ['plugin:prettier/recommended', 'plugin:vue/essential'],
+            plugins: ['vue', 'prettier', '@typescript-eslint'],
+            rules: {
+                'prettier/prettier': 'warn',
+                'vue/custom-event-name-casing': 'off',
+                'vue/multi-word-component-names': 'off'
+            }
+        },
+        { files: '*.svelte', processor: 'svelte3/svelte3', plugins: ['prettier', '@typescript-eslint', 'svelte3'], },
         {
             files: '*.ts',
             rules: {
@@ -73,13 +96,7 @@ module.exports = {
         ]
     },
     rules: {
-        'react/display-name': 'off',
-        'react-hooks/rules-of-hooks': 'error',
-        'react-hooks/exhaustive-deps': 'warn',
-        'react/prop-types': 'off',
         'prettier/prettier': 'warn',
-        'vue/custom-event-name-casing': 'off',
-        'vue/multi-word-component-names': 'off',
         // '@nativescript/no-nativescript-angular-imports': 'warn',
         // '@nativescript/no-tns-core-modules-imports': 'warn',
         // '@nativescript/no-duplicate-ns-imports': 'warn',
