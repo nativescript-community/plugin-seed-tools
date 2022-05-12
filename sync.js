@@ -1,12 +1,6 @@
 const fs = require('fs');
 const crypto = require('crypto');
 
-const changes = {
-    devDependencies: {},
-    scripts: {},
-    ntl: {}
-};
-
 const pluginPackageJSON = JSON.parse(fs.readFileSync('./package.json'));
 
 function checkAndUpdate(json, field) {
