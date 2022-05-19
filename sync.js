@@ -67,7 +67,6 @@ const pluginDemos = pluginConfigJson['demos'];
 const commonPackageJSON = JSON.parse(fs.readFileSync('./tools/package.json.template'));
 checkAndUpdate(commonPackageJSON['scripts'], 'scripts');
 checkAndUpdate(commonPackageJSON['ntl'], 'ntl');
-checkAndUpdate(commonPackageJSON['dependenciesMeta'], 'dependenciesMeta');
 
 if (!pluginAngular) {
     deleteProperty(pluginPackageJSON, 'build.angular');
