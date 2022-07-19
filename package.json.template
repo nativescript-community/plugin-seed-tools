@@ -1,4 +1,9 @@
 {
+    "engines": {
+        "npm": "please use yarn or pnpm",
+        "yarn": ">= 1.19.1",
+        "pnpm": ">= 7.0.0"
+    },
     "scripts": {
         "build": "lerna run build",
         "build.angular": "lerna run build.angular",
