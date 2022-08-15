@@ -1,7 +1,7 @@
 import td from 'typedoc';
 import ts from 'typescript';
 import * as path from 'path';
-import {globby} from 'globby';
+import globby from 'globby';
 
 import typedocJson from './typedoc.js';
 
@@ -11,20 +11,19 @@ import typedocJson from './typedoc.js';
  *  @param {string} options.outDir
  * @param {Partial<import('typedoc').TypeDocOptions>} [typeDocOptions]
  */
-export async function createTypeScriptApiDocs ({ outDir }, typeDocOptions = {}) {
+export async function createTypeScriptApiDocs({ outDir }, typeDocOptions = {}) {
     const app = new td.Application();
     app.options.addReader(new td.TSConfigReader());
-    console.log('createTypeScriptApiDocs', typeDocOptions);
-    const files = await globby(['../src/**/*.d.ts', '../src/**/index.ts', '!**/references.d.ts', '!**/appbar', '!**/page', '!**/typings', '!**/angular', '!**/vue', '!**/react'], {
+    console.log('createTypeScriptApiDocs', typeDocOptions, path.join(process.cwd()));
+    const files = await globby(['src/**/*.d.ts', 'src/**/index.ts', '!**/references.d.ts', '!**/typings', '!**/angular', '!**/vue', '!**/svelte', '!**/react'], {
         absolute: true,
         cwd: path.join(process.cwd())
     });
-    console.log('files', files);
     app.bootstrap({
-        logger: "console",
+        logger: 'console',
         disableSources: true,
         cleanOutputDir: true,
-        tsconfig: 'tsconfig.doc.json',
+        tsconfig: 'tools/tsconfig.doc.json',
         entryPointStrategy: td.EntryPointStrategy.Expand,
         entryPoints: files,
         ...typedocJson,
@@ -41,14 +40,14 @@ export async function createTypeScriptApiDocs ({ outDir }, typeDocOptions = {}) 
     if (project) {
         await app.generateDocs(project, outDir);
     } else {
-        throw new Error(`Error creating the typedoc project`);
+        throw new Error('Error creating the typedoc project');
     }
-};
+}
 // app.generateDocs(project, "./docs");
 // app.generateJson(project, "./docs.json");
 
 try {
-    await createTypeScriptApiDocs({ outDir: '../docs' });
-} catch(err) {
+    await createTypeScriptApiDocs({ outDir: 'docs' });
+} catch (err) {
     console.error(err);
 }
