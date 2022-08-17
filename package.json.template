@@ -4,6 +4,7 @@
         "yarn": ">= 1.19.1",
         "pnpm": ">= 7.0.0"
     },
+    "workspaces":["packages/*"],
     "scripts": {
         "build": "lerna run build",
         "build.angular": "lerna run build.angular",
