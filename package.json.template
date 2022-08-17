@@ -4,7 +4,13 @@
         "yarn": ">= 1.19.1",
         "pnpm": ">= 7.0.0"
     },
-    "workspaces":["packages/*"],
+    "workspaces": [
+        "packages/*",
+        "demo-vue",
+        "demo-ng",
+        "demo-svelte",
+        "demo-react"
+    ],
     "scripts": {
         "build": "lerna run build",
         "build.angular": "lerna run build.angular",
