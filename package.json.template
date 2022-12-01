@@ -31,7 +31,7 @@
         "demo.vue.clean": "cd ./demo-vue && ns clean",
         "demo.vue.ios": "cd ./demo-vue && ns run ios --no-hmr",
         "doc": "node tools/builddoc.mjs && git add docs/* && git commit -m \"chore:doc\"",
-        "publish": "npm run setup && npm run clean && npm run build.all && lerna publish --create-release=github --force-publish",
+        "publish": "npm run clean && npm run build.all && lerna publish --create-release=github --force-publish",
         "postinstall": "npm run setup",
         "readme": "node ./tools/readme.js",
         "setup": "npm run submodules && ts-patch install",
