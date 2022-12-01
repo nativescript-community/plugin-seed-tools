@@ -7,7 +7,7 @@
         "noLib": false,
         "emitDecoratorMetadata": false,
         "experimentalDecorators": true,
-        "lib": ["es2017", "dom"],
+        "lib": ["ESNext", "dom"],
         "sourceMap": true,
         "pretty": true,
         "jsx": "react",
