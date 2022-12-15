@@ -11,7 +11,7 @@ git clone https://github.com/{{ pkg.name }}.git --recursive
 
 **Install Dependencies:**
 ```bash
-npm i # or 'yarn install' or 'pnpm install'
+'yarn install' or 'pnpm install'
 ```
 
 **Interactive Menu:**
@@ -21,9 +21,7 @@ To start the interactive menu, run `npm start` (or `yarn start` or `pnpm start`)
 ### Build
 
 ```bash
-npm run build
-
-npm run build.angular # or for Angular
+npm run build.all
 ```
 
 ### Demos
