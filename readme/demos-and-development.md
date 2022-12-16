@@ -3,6 +3,11 @@
 
 ### Repo Setup
 
+The repo uses submodules. If you did not clone with ` --recursive` then you need to call
+```
+git submodule update --init
+```
+
 The package manager used to install and link dependencies must be `pnpm` or `yarn`. `npm` wont work.
 
 To develop and test:
