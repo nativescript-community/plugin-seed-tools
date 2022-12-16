@@ -1,17 +1,11 @@
-const packageJSON = require('../package.json')
+const packageJSON = require('../package.json');
 module.exports = {
-    mode: 'modules',
-    out: '../docs',
+    out: 'docs',
     exclude: ['**/node_modules/**', '**/*.spec.ts', '*typings*'],
     name: packageJSON.description,
     excludePrivate: true,
-    ignoreCompilerErrors: true,
-    excludeNotExported: true,
-    includeDeclarations: true,
     excludePrivate: true,
-    preserveConstEnums: 'true',
     excludeExternals: true,
-    tsconfig: 'tsconfig.doc.json',
-    'external-modulemap': 'src/([\\w\\-_]+)/',
+    tsconfig: 'tools/tsconfig.doc.json',
     readme: '../README.md'
 };
