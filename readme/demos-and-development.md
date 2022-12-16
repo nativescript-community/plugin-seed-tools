@@ -6,8 +6,8 @@
 The package manager used to install and link dependencies must be `pnpm` or `yarn`. `npm` wont work.
 
 To develop and test:
-if you use `yarn` then run `npm run yarn.setup`
-if you use `pnpm` then run `npm run pnpm.setup`
+if you use `yarn` then run `yarn`
+if you use `pnpm` then run `pnpm i`
 
 **Interactive Menu:**
 
