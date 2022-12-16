@@ -30,7 +30,7 @@ if (enabled) {
     let readmeOutput = '';
 
     if (packagesCount > 1) {
-        readmeOutput += 'This monorepo contains multiple packages:<br>{{ load:./tools/readme/demos-and-development.md }}<br><br>';
+        readmeOutput += '{{ load:./tools/readme/demos-and-development.md }}<br><br>This monorepo contains multiple packages:<br><br>';
     }
 
     for (const package of files) {
