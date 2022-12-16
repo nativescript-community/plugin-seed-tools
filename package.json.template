@@ -9,7 +9,8 @@
         "demo-vue",
         "demo-ng",
         "demo-svelte",
-        "demo-react"
+        "demo-react",
+        "demo-snippets"
     ],
     "scripts": {
         "build": "lerna run build",
