@@ -10,21 +10,25 @@ const changes = {
 const pluginPackageJSON = JSON.parse(fs.readFileSync('./package.json'));
 
 function checkAndUpdate(json, field) {
-    if (pluginPackageJSON[field] === undefined) {
-        pluginPackageJSON[field] = {};
-    }
-
-    for (const [key, value] of Object.entries(json)) {
-        if (typeof pluginPackageJSON[field][key] === 'undefined') {
-            pluginPackageJSON[field][key] = value;
-        } else if (JSON.stringify(value) !== JSON.stringify(pluginPackageJSON[field][key])) {
-            if (typeof value === 'object') {
-                pluginPackageJSON[field] = {};
+    console.log('checkAndUpdate', field, typeof json, Array.isArray(json));
+    if (typeof json === 'object' && !Array.isArray(json)) {
+        if (pluginPackageJSON[field] === undefined) {
+            pluginPackageJSON[field] = {};
+        }
+        for (const [key, value] of Object.entries(json)) {
+            if (typeof pluginPackageJSON[field][key] === 'undefined') {
                 pluginPackageJSON[field][key] = value;
-            } else {
-                pluginPackageJSON[field][key] = value;
+            } else if (JSON.stringify(value) !== JSON.stringify(pluginPackageJSON[field][key])) {
+                if (typeof value === 'object') {
+                    pluginPackageJSON[field] = {};
+                    pluginPackageJSON[field][key] = value;
+                } else {
+                    pluginPackageJSON[field][key] = value;
+                }
             }
         }
+    } else {
+        pluginPackageJSON[field] = json;
     }
 }
 
