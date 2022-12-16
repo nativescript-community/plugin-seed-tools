@@ -35,8 +35,8 @@
         "postinstall": "npm run setup",
         "readme": "node ./tools/readme.js",
         "setup": "npm run submodules && ts-patch install",
-        "yarn.setup": "npm run setup && yarn workspaces foreach --include @nativescript/template-* run install",
-        "pnpm.setup": "npm run setup && pnpm --filter @nativescript/template-* install",
+        "yarn.setup": "npm run setup && yarn plugin import workspace-tools && yarn workspaces foreach -p --include @nativescript/template-* install",
+        "pnpm.setup": "npm run setup && pnpm --filter @nativescript/template-* install"
         "start": "./node_modules/.bin/ntl -A -s 15 -o",
         "submodules": "git submodule update --init",
         "sync": "node ./tools/sync.js",
