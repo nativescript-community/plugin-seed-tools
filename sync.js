@@ -67,6 +67,7 @@ const pluginDemos = pluginConfigJson['demos'];
 const commonPackageJSON = JSON.parse(fs.readFileSync('./tools/package.json.template'));
 checkAndUpdate(commonPackageJSON['scripts'], 'scripts');
 checkAndUpdate(commonPackageJSON['ntl'], 'ntl');
+checkAndUpdate(commonPackageJSON['workspaces'], 'workspaces');
 checkAndUpdate(commonPackageJSON['engines'], 'engines');
 
 if (!pluginAngular) {
