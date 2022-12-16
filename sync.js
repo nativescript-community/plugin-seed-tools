@@ -10,7 +10,6 @@ const changes = {
 const pluginPackageJSON = JSON.parse(fs.readFileSync('./package.json'));
 
 function checkAndUpdate(json, field) {
-    console.log('checkAndUpdate', field, typeof json, Array.isArray(json));
     if (typeof json === 'object' && !Array.isArray(json)) {
         if (pluginPackageJSON[field] === undefined) {
             pluginPackageJSON[field] = {};
