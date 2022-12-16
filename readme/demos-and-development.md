@@ -1,18 +1,16 @@
 ## Demos and Development
 
 
-### Setup
+### Repo Setup
 
-To run the demos, you must clone this repo **recursively**.
+The package manager used to install and link dependencies must be `pnpm` or `yarn`. `npm` wont work.
 
-```
-git clone https://github.com/{{ pkg.name }}.git --recursive
-```
+To develop and test:
 
-**Install Dependencies:**
-```bash
-'yarn install' or 'pnpm install'
-```
+Run `pnpm i` or `yarn i` in root folder.
+Run `pnpm i` or `yarn i` in all demo apps folders.
+
+You can also run `npm run yarn.setup` or `npm run pnpm.setup` in root folder to do it all in one steps
 
 **Interactive Menu:**
 

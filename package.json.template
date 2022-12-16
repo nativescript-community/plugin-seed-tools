@@ -1,8 +1,8 @@
 {
     "engines": {
         "npm": "please use yarn or pnpm",
-        "yarn": ">= 1.19.1",
-        "pnpm": ">= 7.0.0"
+        "yarn": ">=1.19.1",
+        "pnpm": ">=7.0.0"
     },
     "workspaces": [
         "packages/*",
@@ -35,6 +35,8 @@
         "postinstall": "npm run setup",
         "readme": "node ./tools/readme.js",
         "setup": "npm run submodules && ts-patch install",
+        "yarn.setup": "npm run setup && yarn workspaces foreach --include @nativescript/template-* run install",
+        "pnpm.setup": "npm run setup && pnpm --filter @nativescript/template-* install",
         "start": "./node_modules/.bin/ntl -A -s 15 -o",
         "submodules": "git submodule update --init",
         "sync": "node ./tools/sync.js",
