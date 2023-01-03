@@ -52,6 +52,16 @@ npm run sync
 ```
 Then you can run `yarn|pnpm`, commit changed files if any
 
+### Update readme 
+```bash
+npm run readme
+```
+
+### Update doc 
+```bash
+npm run doc
+```
+
 ### Publish
 
 The publishing is completely handled by `lerna` (you can add `-- --bump major` to force a major release)
