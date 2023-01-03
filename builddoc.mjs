@@ -16,18 +16,23 @@ export async function createTypeScriptApiDocs({ outDir }, typeDocOptions = {}) {
     const currentPath = path.join(process.cwd());
     app.options.addReader(new td.TSConfigReader());
     console.log('createTypeScriptApiDocs', typeDocOptions, currentPath);
-    const files = await globby(['src/**/*.d.ts', 'src/**/index.ts', '!**/references.d.ts', '!**/typings', '!**/angular', '!**/vue', '!**/svelte', '!**/react'], {
+    const files = await globby(['src/**/*.d.ts', 'src/**/index.ts', 'src/**/*common.ts', '!**/references.d.ts', '!**/typings', '!**/angular', '!**/vue', '!**/svelte', '!**/react'], {
         absolute: true,
         cwd: currentPath
     });
     app.bootstrap({
         logger: 'console',
         readme: path.join(currentPath, 'README.md'),
-        disableSources: true,
+        disableSources: false,
+        excludeExternals: true,
         cleanOutputDir: true,
         tsconfig: 'tools/tsconfig.doc.json',
-        entryPointStrategy: td.EntryPointStrategy.Expand,
+        gitRevision: 'master',
+        entryPointStrategy: td.EntryPointStrategy.Resolve,
         entryPoints: files,
+        "navigationLinks": {
+            "Nativescript Doc": "https://docs.nativescript.org"
+        },
         ...typedocJson,
         ...typeDocOptions
     });
