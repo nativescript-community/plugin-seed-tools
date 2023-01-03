@@ -13,14 +13,16 @@ import typedocJson from './typedoc.js';
  */
 export async function createTypeScriptApiDocs({ outDir }, typeDocOptions = {}) {
     const app = new td.Application();
+    const currentPath = path.join(process.cwd());
     app.options.addReader(new td.TSConfigReader());
-    console.log('createTypeScriptApiDocs', typeDocOptions, path.join(process.cwd()));
+    console.log('createTypeScriptApiDocs', typeDocOptions, currentPath);
     const files = await globby(['src/**/*.d.ts', 'src/**/index.ts', '!**/references.d.ts', '!**/typings', '!**/angular', '!**/vue', '!**/svelte', '!**/react'], {
         absolute: true,
-        cwd: path.join(process.cwd())
+        cwd: currentPath
     });
     app.bootstrap({
         logger: 'console',
+        readme: path.join(currentPath, 'README.md'),
         disableSources: true,
         cleanOutputDir: true,
         tsconfig: 'tools/tsconfig.doc.json',
