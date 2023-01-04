@@ -8,22 +8,25 @@ module.exports = {
         ecmaFeatures: {
             jsx: true
         },
-        ecmaVersion: 2019,
+        ecmaVersion: 2020,
         sourceType: 'module',
         project: 'tsconfig.eslint.json',
         warnOnUnsupportedTypeScriptVersion: false,
         tsconfigRootDir: __dirname
     },
     overrides: [
-        {files: ['**/*.tsx'], plugins: ['prettier', '@typescript-eslint', 'react', 'react-hooks'],
-        rules: {
-            'react/display-name': 'off',
-            'react-hooks/rules-of-hooks': 'error',
-            'react-hooks/exhaustive-deps': 'warn',
-            'react/prop-types': 'off',
-        }},
         {
-            files: ['**/*.vue'],
+            files: ['*.tsx'],
+            plugins: ['prettier', '@typescript-eslint', 'react', 'react-hooks'],
+            rules: {
+                'react/display-name': 'off',
+                'react-hooks/rules-of-hooks': 'error',
+                'react-hooks/exhaustive-deps': 'warn',
+                'react/prop-types': 'off'
+            }
+        },
+        {
+            files: ['*.vue'],
             parser: 'vue-eslint-parser',
             parserOptions: {
                 parser: {
@@ -31,10 +34,10 @@ module.exports = {
                     js: '@typescript-eslint/parser',
                     '<template>': 'espree'
                 },
-                ecmaVersion: 2019,
+                ecmaVersion: 2020,
                 sourceType: 'module',
                 project: 'tsconfig.eslint.json',
-                warnOnUnsupportedTypeScriptVersion: false,
+                warnOnUnsupportedTypeScriptVersion: true,
                 extraFileExtensions: ['.vue'],
                 tsconfigRootDir: __dirname
             },
@@ -46,7 +49,7 @@ module.exports = {
                 'vue/multi-word-component-names': 'off'
             }
         },
-        { files: '*.svelte', processor: 'svelte3/svelte3', plugins: ['prettier', '@typescript-eslint', 'svelte3'], },
+        { files: '*.svelte', processor: 'svelte3/svelte3', plugins: ['prettier', '@typescript-eslint', 'svelte3'] },
         {
             files: '*.ts',
             rules: {
