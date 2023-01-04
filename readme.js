@@ -30,7 +30,7 @@ if (enabled) {
     let readmeOutput = '';
 
     if (packagesCount > 1) {
-        readmeOutput += '{{ load:./tools/readme/demos-and-development.md }}<br><br>This monorepo contains multiple packages:<br><br>';
+        readmeOutput += 'This monorepo contains multiple packages:<br><br>';
     }
 
     for (const package of files) {
@@ -39,7 +39,7 @@ if (enabled) {
 {{ load:packages/${package}/README.md }}
 </details>`;
 
-        const singlePackageMarkdown = `{{ load:./tools/readme/demos-and-development.md }}<br><br>{{ load:packages/${package}/README.md }}`;
+        const singlePackageMarkdown = `{{ load:packages/${package}/README.md }}`;
 
         if (packagesCount > 1) {
             readmeOutput += multiPackageMarkdown;
