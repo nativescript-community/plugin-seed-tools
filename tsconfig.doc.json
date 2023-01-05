@@ -5,6 +5,6 @@
         "noEmitOnError": false,
         "plugins": []
     },
-    "include": ["../src/**/*.ts"],
+    "include": ["../packages/**/*.d.ts"],
     "exclude": ["**/*android*", "**/*ios*"]
 }
