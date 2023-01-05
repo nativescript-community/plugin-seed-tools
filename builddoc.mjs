@@ -1,6 +1,7 @@
 import td from 'typedoc';
 import ts from 'typescript';
 import * as path from 'path';
+import * as fs from 'fs';
 import globby from 'globby';
 
 import typedocJson from './typedoc.js';
@@ -15,22 +16,24 @@ export async function createTypeScriptApiDocs({ outDir }, typeDocOptions = {}) {
     const app = new td.Application();
     const currentPath = path.join(process.cwd());
     app.options.addReader(new td.TSConfigReader());
-    console.log('createTypeScriptApiDocs', typeDocOptions, currentPath);
-    const files = await globby(['src/**/*.d.ts', 'src/**/index.ts', '!**/references.d.ts', '!**/typings', '!**/angular', '!**/vue', '!**/svelte', '!**/react'], {
+    const files = await globby(['packages/**/package.json'], {
         absolute: true,
+        deep: 2,
         cwd: currentPath
     });
+    const actualTypings = files.map((p) => path.relative(path.join(currentPath, ''), path.join(path.dirname(p), JSON.parse(fs.readFileSync(p)).typings)));
+    console.log('createTypeScriptApiDocs', typeDocOptions, currentPath, actualTypings);
     app.bootstrap({
         logger: 'console',
         readme: path.join(currentPath, 'README.md'),
         disableSources: false,
-        excludePrivate: true,
         excludeExternals: true,
         cleanOutputDir: true,
         tsconfig: 'tools/tsconfig.doc.json',
         gitRevision: 'master',
+        logLevel: 'Verbose',
         entryPointStrategy: td.EntryPointStrategy.Resolve,
-        entryPoints: files,
+        entryPoints: actualTypings,
         navigationLinks: {
             'Nativescript Doc': 'https://docs.nativescript.org'
         },
@@ -38,7 +41,7 @@ export async function createTypeScriptApiDocs({ outDir }, typeDocOptions = {}) {
         ...typeDocOptions
     });
     //@ts-ignore
-    app.options.setCompilerOptions(files, {
+    app.options.setCompilerOptions(actualTypings, {
         esModuleInterop: true
     });
     // const program = ts.createProgram(app.options.getFileNames(), app.options.getCompilerOptions());
