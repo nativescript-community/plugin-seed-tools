@@ -1,5 +1,4 @@
 import td from 'typedoc';
-import ts from 'typescript';
 import * as path from 'path';
 import * as fs from 'fs';
 import globby from 'globby';
