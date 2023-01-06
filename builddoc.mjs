@@ -43,7 +43,6 @@ export async function createTypeScriptApiDocs({ outDir }, typeDocOptions = {}) {
     app.options.setCompilerOptions(actualTypings, {
         esModuleInterop: true
     });
-    // const program = ts.createProgram(app.options.getFileNames(), app.options.getCompilerOptions());
 
     const project = app.converter.convert(app.getEntryPoints() ?? []);
 
