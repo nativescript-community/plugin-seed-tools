@@ -28,13 +28,13 @@ WARNING: it seems `yarn build.all` wont always work (not finding binaries in `no
 ### Demos
 
 ```bash
-npm run demo.[ng|react|svelte|vue].[ios|android]
+npm run demo.[ng|react|svelte|vue|vue3].[ios|android]
 
 npm run demo.svelte.ios # Example
 ```
 
-Demo setup is a bit special in the sense that if you want to modify/add demos you dont work directly in `demo-[ng|react|svelte|vue]`
-Instead you work in `demo-snippets/[ng|react|svelte|vue]`
+Demo setup is a bit special in the sense that if you want to modify/add demos you dont work directly in `demo-[ng|react|svelte|vue|vue3]`
+Instead you work in `demo-snippets/[ng|react|svelte|vue|vue3]`
 You can start from the `install.ts` of each flavor to see how to register new demos 
 
 ## Contributing

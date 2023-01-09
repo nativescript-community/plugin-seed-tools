@@ -96,10 +96,16 @@ if (!pluginDemos.includes('svelte')) {
     deleteProperty(pluginPackageJSON, 'demo.svelte.clean');
 }
 
-if (!pluginDemos.includes('vue')) {
+if (!pluginDemos.endsWith('vue')) {
     deleteProperty(pluginPackageJSON, 'demo.vue.android');
     deleteProperty(pluginPackageJSON, 'demo.vue.ios');
     deleteProperty(pluginPackageJSON, 'demo.vue.clean');
+}
+
+if (!pluginDemos.includes('vue3')) {
+    deleteProperty(pluginPackageJSON, 'demo.vue3.android');
+    deleteProperty(pluginPackageJSON, 'demo.vue3.ios');
+    deleteProperty(pluginPackageJSON, 'demo.vue3.clean');
 }
 
 console.log('Common files and package.json have been synced.');
