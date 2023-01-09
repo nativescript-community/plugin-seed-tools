@@ -4,7 +4,7 @@ const { execSync } = require('child_process');
 
 const pluginConfig = fs.readFileSync('config.json');
 
-const validDirectories = ['tools', 'demo-ng', 'demo-react', 'demo-svelte', 'demo-vue'];
+const validDirectories = ['tools', 'demo-ng', 'demo-react', 'demo-svelte', 'demo-vue', 'demo-vue3'];
 
 function getDirectories(path) {
     return fs.readdirSync(path).filter(function (file) {
