@@ -13,6 +13,11 @@
         "pnpm": ">=7.0.0",
         "node": "^14.20.0 || ^16.13.0 || >=18.10.0"
     },
+    "commitlint": {
+        "extends": [
+            "@commitlint/config-conventional"
+        ]
+    },
     "scripts": {
         "build": "lerna run build",
         "build.angular": "lerna run build.angular",
@@ -33,7 +38,7 @@
         "demo.vue.clean": "cd ./demo-vue && ns clean",
         "demo.vue.ios": "cd ./demo-vue && ns run ios --no-hmr --env.watchNodeModules",
         "doc": "node tools/builddoc.mjs",
-        "publish": "npm run clean && npm run build.all && npm run readme && npm run doc && lerna publish --no-private --create-release=github --force-publish",
+        "publish": "npm run clean && npm run build.all && npm run readme && npm run doc && lerna publish",
         "postinstall": "npm run setup",
         "readme": "lerna run readme && node ./tools/readme.js",
         "setup": "npm run submodules && ts-patch install",
