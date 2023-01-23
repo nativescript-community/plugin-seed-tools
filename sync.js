@@ -67,6 +67,11 @@ const pluginConfigJson = JSON.parse(pluginConfig);
 const pluginAngular = pluginConfigJson['angular'];
 const pluginDemos = pluginConfigJson['demos'];
 
+const commonLernaJSON = JSON.parse(fs.readFileSync('./tools/lerna.template.json'));
+let lernaJSON = JSON.parse(fs.readFileSync('./lerna.json'));
+lernaJSON = { version: lernaJSON.version, ...commonLernaJSON };
+fs.writeFileSync('./lerna.json', JSON.stringify(lernaJSON, 0, 4) + '\n');
+
 const commonPackageJSON = JSON.parse(fs.readFileSync('./tools/package.json.template'));
 checkAndUpdate(commonPackageJSON['scripts'], 'scripts');
 checkAndUpdate(commonPackageJSON['ntl'], 'ntl');
@@ -102,5 +107,5 @@ if (!pluginDemos.includes('vue')) {
     deleteProperty(pluginPackageJSON, 'demo.vue.clean');
 }
 
-console.log('Common files and package.json have been synced.');
 fs.writeFileSync('./package.json', JSON.stringify(pluginPackageJSON, 0, 4) + '\n');
+console.log('Common files and package.json have been synced.');

@@ -53,6 +53,7 @@ module.exports = {
         {
             files: '*.ts',
             rules: {
+                '@typescript-eslint/indent': 'off',
                 'eslint-plugin-svelte3/parse-error': 'off',
                 'no-undef': 'off'
             }

@@ -11,17 +11,30 @@ import typedocJson from './typedoc.js';
  *  @param {string} options.outDir
  * @param {Partial<import('typedoc').TypeDocOptions>} [typeDocOptions]
  */
-export async function createTypeScriptApiDocs({ outDir }, typeDocOptions = {}) {
+export async function createTypeScriptApiDocs({ outDir, includeSubDirDefinitions }, typeDocOptions = {}) {
     const app = new td.Application();
     const currentPath = path.join(process.cwd());
     app.options.addReader(new td.TSConfigReader());
+    let otherFiles = [];
+    if (includeSubDirDefinitions === true) {
+        otherFiles = await globby(
+            ['packages/*/*/**/*.d.ts', '!**/*.android.d.ts', '!**/*.ios.d.ts', '!**/*.common.d.ts', '!*node_modules*', '!**/vue/**/*', '!**/angular/**/*', '!**/svelte/**/*', '!**/react/**/*'],
+            {
+                absolute: true,
+                followSymbolicLinks: false,
+                cwd: currentPath
+            }
+        );
+    }
     const files = await globby(['packages/**/package.json'], {
         absolute: true,
+        followSymbolicLinks: false,
         deep: 2,
         cwd: currentPath
     });
     const actualTypings = files.map((p) => path.relative(path.join(currentPath, ''), path.join(path.dirname(p), JSON.parse(fs.readFileSync(p)).typings)));
-    console.log('createTypeScriptApiDocs', typeDocOptions, currentPath, actualTypings);
+    const allFiles = actualTypings.concat(otherFiles);
+    console.log('createTypeScriptApiDocs', typeDocOptions, currentPath, otherFiles);
     app.bootstrap({
         logger: 'console',
         readme: path.join(currentPath, 'README.md'),
@@ -32,7 +45,7 @@ export async function createTypeScriptApiDocs({ outDir }, typeDocOptions = {}) {
         gitRevision: 'master',
         logLevel: 'Verbose',
         entryPointStrategy: td.EntryPointStrategy.Resolve,
-        entryPoints: actualTypings,
+        entryPoints: allFiles,
         navigationLinks: {
             'Nativescript Doc': 'https://docs.nativescript.org'
         },
@@ -40,7 +53,7 @@ export async function createTypeScriptApiDocs({ outDir }, typeDocOptions = {}) {
         ...typeDocOptions
     });
     //@ts-ignore
-    app.options.setCompilerOptions(actualTypings, {
+    app.options.setCompilerOptions(allFiles, {
         esModuleInterop: true
     });
 
@@ -56,7 +69,16 @@ export async function createTypeScriptApiDocs({ outDir }, typeDocOptions = {}) {
 // app.generateJson(project, "./docs.json");
 
 try {
-    await createTypeScriptApiDocs({ outDir: 'docs' });
+    let docOptions = {};
+    try {
+        const config = JSON.parse(fs.readFileSync('./config.json'));
+        if (config.doc) {
+            docOptions = config.doc;
+        }
+    } catch (error) {
+        console.error('error parsing config', error);
+    }
+    await createTypeScriptApiDocs({ outDir: 'docs', ...docOptions });
 } catch (err) {
     console.error(err);
 }

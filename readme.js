@@ -47,6 +47,7 @@ if (enabled) {
             readmeOutput += singlePackageMarkdown;
         }
     }
+    readmeOutput += '\n{{ load:tools/readme/demos-and-development.md }}{{ load:tools/readme/questions.md }}';
 
     try {
         fs.writeFileSync('blueprint.md', readmeOutput);
