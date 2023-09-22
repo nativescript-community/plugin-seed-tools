@@ -35,6 +35,7 @@ tmp/
 devices.js
 
 *.framework
+*.xcframework
 **/*.js.map
 src/**/*.js
 packages/**/*.js
