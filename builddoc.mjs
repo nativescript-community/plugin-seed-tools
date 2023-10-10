@@ -12,9 +12,7 @@ import typedocJson from './typedoc.js';
  * @param {Partial<import('typedoc').TypeDocOptions>} [typeDocOptions]
  */
 export async function createTypeScriptApiDocs({ outDir, includeSubDirDefinitions }, typeDocOptions = {}) {
-    const app = new td.Application();
     const currentPath = path.join(process.cwd());
-    app.options.addReader(new td.TSConfigReader());
     let otherFiles = [];
     if (includeSubDirDefinitions === true) {
         otherFiles = await globby(
@@ -35,8 +33,8 @@ export async function createTypeScriptApiDocs({ outDir, includeSubDirDefinitions
     const actualTypings = files.map((p) => path.relative(path.join(currentPath, ''), path.join(path.dirname(p), JSON.parse(fs.readFileSync(p)).typings)));
     const allFiles = actualTypings.concat(otherFiles);
     console.log('createTypeScriptApiDocs', typeDocOptions, currentPath, otherFiles);
-    app.bootstrap({
-        logger: 'console',
+    const app = await td.Application.bootstrap({
+        // logger: 'console',
         readme: path.join(currentPath, 'README.md'),
         disableSources: false,
         excludeExternals: true,
@@ -51,7 +49,8 @@ export async function createTypeScriptApiDocs({ outDir, includeSubDirDefinitions
         },
         ...typedocJson,
         ...typeDocOptions
-    });
+    }, [new td.PackageJsonReader(), new td.TSConfigReader()]);
+    // app.bootstrap();
     //@ts-ignore
     app.options.setCompilerOptions(allFiles, {
         esModuleInterop: true
