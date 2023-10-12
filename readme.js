@@ -29,6 +29,9 @@ if (enabled) {
 
     let readmeOutput = '';
 
+    if (fs.existsSync('header.md')) {
+        readmeOutput += '{{ load:header.md }}\n';
+    }
     if (packagesCount > 1) {
         readmeOutput += 'This monorepo contains multiple packages:<br><br>';
     }
@@ -47,7 +50,17 @@ if (enabled) {
             readmeOutput += singlePackageMarkdown;
         }
     }
+
+
+    if (fs.existsSync('info.md')) {
+        readmeOutput += '\n{{ load:info.md }}';
+    }
+
     readmeOutput += '\n{{ load:tools/readme/demos-and-development.md }}{{ load:tools/readme/questions.md }}';
+
+    if (fs.existsSync('footer.md')) {
+        readmeOutput += '\n{{ load:footer.md }}';
+    }
 
     try {
         fs.writeFileSync('blueprint.md', readmeOutput);
