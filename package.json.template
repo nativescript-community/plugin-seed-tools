@@ -40,7 +40,7 @@
         "demo.vue.ios": "cd ./demo-vue && ns run ios --no-hmr --env.watchNodeModules",
         "doc": "node tools/builddoc.mjs",
         "commit_readme_doc_changes": "git add docs/** *.md && git commit -m \"readme/doc\"",
-        "publish": "npm run clean && npm run build.all && npm run readme && npm run doc && npm run commit_readme_doc_changes && lerna publish",
+        "publish": "npm run setup && npm run clean && npm run build.all && npm run readme && npm run doc && npm run commit_readme_doc_changes && lerna publish",
         "postinstall": "npm run setup",
         "readme": "lerna run readme && node ./tools/readme.js",
         "setup": "npm run submodules && ts-patch install",
