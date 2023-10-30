@@ -1,7 +1,7 @@
 import td from 'typedoc';
 import * as path from 'path';
 import * as fs from 'fs';
-import globby from 'globby';
+import { globby } from 'globby';
 
 import typedocJson from './typedoc.js';
 
@@ -33,23 +33,26 @@ export async function createTypeScriptApiDocs({ outDir, includeSubDirDefinitions
     const actualTypings = files.map((p) => path.relative(path.join(currentPath, ''), path.join(path.dirname(p), JSON.parse(fs.readFileSync(p)).typings)));
     const allFiles = actualTypings.concat(otherFiles);
     console.log('createTypeScriptApiDocs', typeDocOptions, currentPath, otherFiles);
-    const app = await td.Application.bootstrap({
-        // logger: 'console',
-        readme: path.join(currentPath, 'README.md'),
-        disableSources: false,
-        excludeExternals: true,
-        cleanOutputDir: true,
-        tsconfig: 'tools/tsconfig.doc.json',
-        gitRevision: 'master',
-        logLevel: 'Verbose',
-        entryPointStrategy: td.EntryPointStrategy.Resolve,
-        entryPoints: allFiles,
-        navigationLinks: {
-            'Nativescript Doc': 'https://docs.nativescript.org'
+    const app = await td.Application.bootstrap(
+        {
+            // logger: 'console',
+            readme: path.join(currentPath, 'README.md'),
+            disableSources: false,
+            excludeExternals: true,
+            cleanOutputDir: true,
+            tsconfig: 'tools/tsconfig.doc.json',
+            gitRevision: 'master',
+            logLevel: 'Verbose',
+            entryPointStrategy: td.EntryPointStrategy.Resolve,
+            entryPoints: allFiles,
+            navigationLinks: {
+                'Nativescript Doc': 'https://docs.nativescript.org'
+            },
+            ...typedocJson,
+            ...typeDocOptions
         },
-        ...typedocJson,
-        ...typeDocOptions
-    }, [new td.PackageJsonReader(), new td.TSConfigReader()]);
+        [new td.PackageJsonReader(), new td.TSConfigReader()]
+    );
     // app.bootstrap();
     //@ts-ignore
     app.options.setCompilerOptions(allFiles, {
