@@ -1,4 +1,4 @@
-/// <reference path="../node_modules/@nativescript/types-android/lib/android-31.d.ts" />
+/// <reference path="../node_modules/@nativescript/types-android/lib/android-33.d.ts" />
 /// <reference path="../node_modules/@nativescript/core/global-types.d.ts" />
 /// <reference path="../node_modules/@nativescript/types-ios/lib/ios/objc-x86_64/objc!CoreFoundation.d.ts" />
 /// <reference path="../node_modules/@nativescript/types-ios/lib/ios/interop.d.ts" />
