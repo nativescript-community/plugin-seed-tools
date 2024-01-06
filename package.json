@@ -38,7 +38,7 @@
         "eslint-plugin-react-hooks": "^4.6.0",
         "eslint-plugin-svelte3": "4.0.0",
         "eslint-plugin-vue": "^9.10.0",
-        "globby":"13.2.2",
+        "globby":"14.0.0",
         "husky": "^8.0.3",
         "jest": "^29.7.0",
         "jest-circus": "^29.7.0",
