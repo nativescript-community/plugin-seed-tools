@@ -31,5 +31,8 @@
     },
     "include": ["../src/**/*", "./references.d.ts", "../references.d.ts", "../demo-snippets/**/*", "../demo-vue/types"],
     "exclude": ["node_modules"],
-    "compileOnSave": false
+    "compileOnSave": false,
+    "vueCompilerOptions": {
+        "target": 2.7
+      }
 }
