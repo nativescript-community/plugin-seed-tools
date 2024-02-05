@@ -24,7 +24,6 @@
         "esModuleInterop": true,
         "types": ["node", "svelte", "vue", "svelte-native"],
         "skipLibCheck": true,
-        "sourceRoot": "../src",
         "baseUrl": "../",
         "outDir": "../packages",
         "plugins": [{ "transform": "@nativescript/webpack/dist/transformers/NativeClass", "type": "raw" }]
