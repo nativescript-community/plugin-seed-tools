@@ -54,7 +54,7 @@ packages/**/*js.map
 packages/**/*js
 packages/angular
 packages/typings
-!packages/**/angular/*.json
+packages/**/angular/*.json
 packages/**/*.ngsummary.json
 packages/**/*.metadata.json
 
