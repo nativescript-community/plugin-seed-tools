@@ -16,7 +16,7 @@ export async function createTypeScriptApiDocs({ outDir, includeSubDirDefinitions
     let otherFiles = [];
     if (includeSubDirDefinitions === true) {
         otherFiles = await globby(
-            ['packages/*/*/**/*.d.ts', '!**/*.android.d.ts', '!**/*.ios.d.ts', '!**/*.common.d.ts', '!*node_modules*', '!**/vue/**/*', '!**/angular/**/*', '!**/svelte/**/*', '!**/react/**/*'],
+            ['packages/*/*/**/*.d.ts', '!**/*.android.d.ts', '!**/*.ios.d.ts', '!**/*.common.d.ts', '!**/node_modules', '!**/vue/**/*', '!**/angular/**/*', '!**/svelte/**/*', '!**/react/**/*'],
             {
                 absolute: true,
                 followSymbolicLinks: false,
