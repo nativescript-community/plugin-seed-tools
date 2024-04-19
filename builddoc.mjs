@@ -11,9 +11,10 @@ import typedocJson from './typedoc.js';
  *  @param {string} options.outDir
  * @param {Partial<import('typedoc').TypeDocOptions>} [typeDocOptions]
  */
-export async function createTypeScriptApiDocs({ outDir, includeSubDirDefinitions }, typeDocOptions = {}) {
+export async function createTypeScriptApiDocs({ outDir }, options = {}) {
     const currentPath = path.join(process.cwd());
     let otherFiles = [];
+    const { includeSubDirDefinitions, ...typeDocOptions } = options;
     if (includeSubDirDefinitions === true) {
         otherFiles = await globby(
             ['packages/*/*/**/*.d.ts', '!**/*.android.d.ts', '!**/*.ios.d.ts', '!**/*.common.d.ts', '!**/node_modules', '!**/vue/**/*', '!**/angular/**/*', '!**/svelte/**/*', '!**/react/**/*'],
@@ -32,8 +33,8 @@ export async function createTypeScriptApiDocs({ outDir, includeSubDirDefinitions
     });
     const actualTypings = files.map((p) => path.relative(path.join(currentPath, ''), path.join(path.dirname(p), JSON.parse(fs.readFileSync(p)).typings)));
     const allFiles = actualTypings.concat(otherFiles);
-    console.log('createTypeScriptApiDocs', typeDocOptions, currentPath, otherFiles);
-    const app = await td.Application.bootstrap(
+    console.log('createTypeScriptApiDocs', typeDocOptions, currentPath);
+    const app = await td.Application.bootstrapWithPlugins(
         {
             // logger: 'console',
             readme: path.join(currentPath, 'README.md'),
@@ -77,10 +78,11 @@ try {
         if (config.doc) {
             docOptions = config.doc;
         }
+        console.error('docOptions', config, docOptions);
     } catch (error) {
         console.error('error parsing config', error);
     }
-    await createTypeScriptApiDocs({ outDir: 'docs', ...docOptions });
+    await createTypeScriptApiDocs({ outDir: 'docs' }, docOptions);
 } catch (err) {
     console.error(err);
 }
