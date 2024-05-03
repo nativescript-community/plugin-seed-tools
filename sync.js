@@ -50,16 +50,23 @@ function compareFile(file1, file2) {
     return hash1 === hash2;
 }
 
-fs.readdirSync('./tools/common').forEach((file) => {
-    if (!fs.existsSync(`./${file}`)) {
-        console.log('Copying common file over.');
-        fs.copyFileSync(`./tools/common/${file}`, `./${file}`);
-    } else if (!compareFile(`./${file}`, `./tools/common/${file}`)) {
-        console.log(`File: ${file} is different from common version.`);
-        console.log('Copying common file over.');
-        fs.copyFileSync(`./tools/common/${file}`, `./${file}`);
+function handleCommonFile(file, directory) {
+    const destFile = `./${directory}${file}`;
+    const inFile = `./tools/common/${directory}${file}`;
+    if (fs.lstatSync(inFile).isDirectory()) {
+        fs.readdirSync(inFile).forEach(file2=>handleCommonFile(file2, file + '/'));
+    } else {
+        if (!fs.existsSync(destFile)) {
+            console.log(`Copying common file over: ${inFile}}`);
+            fs.copyFileSync(inFile, destFile);
+        } else if (!compareFile(destFile, inFile)) {
+            console.log(`File: ${inFile} is different from common version.`);
+            fs.copyFileSync(inFile, destFile);
+        }
     }
-});
+}
+
+fs.readdirSync('./tools/common').forEach(file=>handleCommonFile(file, ''));
 
 const pluginConfig = fs.readFileSync('config.json');
 const pluginConfigJson = JSON.parse(pluginConfig);
