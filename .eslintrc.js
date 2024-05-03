@@ -1,4 +1,4 @@
-const ignoreWarnings = new Set(['a11y-no-onchange', 'a11y-label-has-associated-control']);
+const ignoreWarnings = ['a11y-no-onchange', 'a11y-label-has-associated-control', 'illegal-attribute-character'];
 module.exports = {
     extends: ['plugin:prettier/recommended'],
     plugins: ['prettier', '@typescript-eslint'],
@@ -49,12 +49,30 @@ module.exports = {
                 'vue/multi-word-component-names': 'off'
             }
         },
-        { files: '*.svelte', processor: 'svelte3/svelte3', plugins: ['prettier', '@typescript-eslint', 'svelte3'] },
+        {
+            files: ['*.svelte'],
+            parser: 'svelte-eslint-parser',
+            parserOptions: {
+                sourceType: 'module',
+                ecmaVersion: 2022,
+                parser: '@typescript-eslint/parser'
+            },
+            rules: {
+                'no-undef': 'off',
+                'svelte/sort-attributes': 'warn',
+                'svelte/no-inner-declarations': 'off',
+                'svelte/valid-compile': [
+                    'error',
+                    {
+                        ignoreWarnings: true
+                    }
+                ]
+            }
+        },
         {
             files: '*.ts',
             rules: {
                 '@typescript-eslint/indent': 'off',
-                'eslint-plugin-svelte3/parse-error': 'off',
                 'no-undef': 'off'
             }
         }
