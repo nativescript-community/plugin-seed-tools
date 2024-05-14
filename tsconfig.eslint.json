@@ -1,6 +1,18 @@
 {
     "extends": "./tsconfig.json",
-    "include": ["../src/**/*", "./references.d.ts", "../references.d.ts", "../demo-snippets/**/*", "../demo-vue/types", "../**/.eslintrc.js"],
+    "include": [
+        "./references.d.ts",
+        "../references.d.ts",
+        "../src/**/*",
+        "../demo-*/types",
+        "../demo-*/app/**/*",
+        "../demo-snippets/react/**/*",
+        "../demo-snippets/svelte/**/*",
+        "../demo-snippets/angular/**/*",
+        "../demo-snippets/vue/**/*",
+        "../**/.eslintrc.js",
+        "../demo-vue/types"
+    ],
     "references": [
         {
             //Need for IDE
