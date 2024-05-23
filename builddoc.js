@@ -1,9 +1,12 @@
-import td from 'typedoc';
-import * as path from 'path';
-import * as fs from 'fs';
-import { globby } from 'globby';
+// import td from 'typedoc';
+const td = require('typedoc');
+const path = require('path');
+const fs = require('fs');
+// import * as path from 'path';
+// import * as fs from 'fs';
 
-import typedocJson from './typedoc.js';
+// import typedocJson from './typedoc.js';
+const typedocJson = require('./typedoc.js');
 
 /**
  * @param {Object} options
@@ -11,7 +14,9 @@ import typedocJson from './typedoc.js';
  *  @param {string} options.outDir
  * @param {Partial<import('typedoc').TypeDocOptions>} [typeDocOptions]
  */
-export async function createTypeScriptApiDocs({ outDir }, options = {}) {
+async function createTypeScriptApiDocs({ outDir }, options = {}) {
+    let globby = await import('globby');
+    globby = globby.globby || globby;
     const currentPath = path.join(process.cwd());
     let otherFiles = [];
     const { includeSubDirDefinitions, ...typeDocOptions } = options;
@@ -70,19 +75,22 @@ export async function createTypeScriptApiDocs({ outDir }, options = {}) {
 }
 // app.generateDocs(project, "./docs");
 // app.generateJson(project, "./docs.json");
-
-try {
-    let docOptions = {};
+new Promise(async function (resolve, reject) {
     try {
-        const config = JSON.parse(fs.readFileSync('./config.json'));
-        if (config.doc) {
-            docOptions = config.doc;
+        let docOptions = {};
+        try {
+            const config = JSON.parse(fs.readFileSync('./config.json'));
+            if (config.doc) {
+                docOptions = config.doc;
+            }
+            console.error('docOptions', config, docOptions);
+        } catch (error) {
+            console.error('error parsing config', error);
         }
-        console.error('docOptions', config, docOptions);
-    } catch (error) {
-        console.error('error parsing config', error);
+        await createTypeScriptApiDocs({ outDir: 'docs' }, docOptions);
+        resolve();
+    } catch (err) {
+        console.error(err);
+        reject(err);
     }
-    await createTypeScriptApiDocs({ outDir: 'docs' }, docOptions);
-} catch (err) {
-    console.error(err);
-}
+});
