@@ -4,6 +4,8 @@
         "./references.d.ts",
         "../references.d.ts",
         "../src/**/*",
+        "../tools/*.js",
+        "../tools/*.mjs",
         "../demo-*/types",
         "../demo-*/app/**/*",
         "../demo-snippets/react/**/*",
