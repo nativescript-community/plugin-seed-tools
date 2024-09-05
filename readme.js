@@ -37,9 +37,9 @@ if (enabled) {
     }
 
     for (const package of files) {
-        const multiPackageMarkdown = `<details>
+        const multiPackageMarkdown = `\n<details open>
 <summary><b>${package}</b></summary>
-{{ load:packages/${package}/README.md }}
+\n{{ load:packages/${package}/README.md }}
 </details>`;
 
         const singlePackageMarkdown = `{{ load:packages/${package}/README.md }}`;
