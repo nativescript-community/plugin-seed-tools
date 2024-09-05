@@ -28,8 +28,8 @@
         "outDir": "../packages",
         "plugins": [{ "transform": "@nativescript/webpack/dist/transformers/NativeClass", "type": "raw" }]
     },
-    "include": ["../src/**/*", "./references.d.ts", "../references.d.ts", "../demo-snippets/**/*", "../demo-vue/types"],
-    "exclude": ["node_modules"],
+    "include": ["../src/**/*", "./references.d.ts", "../references.d.ts", "../demo-vue/types"],
+    "exclude": ["node_modules", "platforms"],
     "compileOnSave": false,
     "vueCompilerOptions": {
         "target": 2.7
