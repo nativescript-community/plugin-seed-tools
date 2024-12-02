@@ -40,7 +40,7 @@
         "commit_readme_doc_changes": "git add docs/** *.md ; git commit -m \"readme/doc\" ; echo \"commit readme doc done\"",
         "publish": "npm run setup && npm run clean && npm run build.all && npm run readme && npm run doc && npm run commit_readme_doc_changes && lerna publish",
         "postinstall": "npm run setup",
-        "readme": "lerna run readme && node ./tools/readme.js",
+        "readme": "lerna run readme && node ./tools/readme.mjs",
         "setup": "npm run submodules && ts-patch install",
         "start": "./node_modules/.bin/ntl -A -s 15 -o",
         "submodules": "git submodule update --init",
