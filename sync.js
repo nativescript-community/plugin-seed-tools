@@ -87,6 +87,7 @@ checkAndUpdate(commonPackageJSON['scripts'], 'scripts');
 checkAndUpdate(commonPackageJSON['ntl'], 'ntl');
 checkAndUpdate(commonPackageJSON['workspaces'], 'workspaces');
 checkAndUpdate(commonPackageJSON['engines'], 'engines');
+checkAndUpdate(commonPackageJSON['packageManager'], 'packageManager');
 
 if (!pluginAngular) {
     deleteProperty(pluginPackageJSON, 'build.angular');
