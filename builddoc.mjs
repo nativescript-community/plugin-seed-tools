@@ -4,7 +4,7 @@ import * as td from 'typedoc';
 // const fs = require('fs');
 import * as path from 'path';
 import * as fs from 'fs';
-import globby from 'globby';
+import { globby } from 'globby';
 
 import typedocJson from './typedoc.js';
 // const typedocJson = require('./typedoc.js');
