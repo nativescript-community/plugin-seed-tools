@@ -8,9 +8,11 @@
         "../tools/*.mjs",
         "../demo-*/types",
         "../demo-*/app/**/*",
+        "../demo-*/src/**/*",
         "../demo-snippets/react/**/*",
         "../demo-snippets/svelte/**/*",
         "../demo-snippets/angular/**/*",
+        "../demo-snippets/ng/**/*",
         "../demo-snippets/vue/**/*",
         "../**/.eslintrc.js",
         "../demo-vue/types"
