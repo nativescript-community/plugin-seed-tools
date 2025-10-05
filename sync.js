@@ -51,17 +51,20 @@ function compareFile(file1, file2) {
 }
 
 function handleCommonFile(file, directory) {
-    const destFile = `./${directory}${file}`;
+    const destFile = `./${directory.replace('_template', '')}${file}`;
     const inFile = `./tools/common/${directory}${file}`;
     if (fs.lstatSync(inFile).isDirectory()) {
-        fs.readdirSync(inFile).forEach(file2=>handleCommonFile(file2, file + '/'));
+        if (!fs.existsSync(destFile)) {
+            fs.mkdirSync(destFile);
+        }
+        fs.readdirSync(inFile).forEach((file2) => handleCommonFile(file2, directory + file + '/'));
     } else {
         if (!fs.existsSync(destFile)) {
             console.log(`Copying common file over: ${inFile}}`);
             fs.copyFileSync(inFile, destFile);
         } else if (!compareFile(destFile, inFile)) {
             console.log(`File: ${inFile} is different from common version.`);
-            fs.copyFileSync(inFile, destFile);
+            fs. copyFileSync(inFile, destFile);
         }
     }
 }
@@ -84,6 +87,7 @@ checkAndUpdate(commonPackageJSON['scripts'], 'scripts');
 checkAndUpdate(commonPackageJSON['ntl'], 'ntl');
 checkAndUpdate(commonPackageJSON['workspaces'], 'workspaces');
 checkAndUpdate(commonPackageJSON['engines'], 'engines');
+checkAndUpdate(commonPackageJSON['packageManager'], 'packageManager');
 
 if (!pluginAngular) {
     deleteProperty(pluginPackageJSON, 'build.angular');
