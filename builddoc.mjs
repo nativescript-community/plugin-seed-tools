@@ -1,12 +1,13 @@
 // import td from 'typedoc';
-const td = require('typedoc');
-const path = require('path');
-const fs = require('fs');
-// import * as path from 'path';
-// import * as fs from 'fs';
+import * as td from 'typedoc';
+// const path = require('path');
+// const fs = require('fs');
+import * as path from 'path';
+import * as fs from 'fs';
+import { globby } from 'globby';
 
-// import typedocJson from './typedoc.js';
-const typedocJson = require('./typedoc.js');
+import typedocJson from './typedoc.js';
+// const typedocJson = require('./typedoc.js');
 
 /**
  * @param {Object} options
@@ -15,14 +16,23 @@ const typedocJson = require('./typedoc.js');
  * @param {Partial<import('typedoc').TypeDocOptions>} [typeDocOptions]
  */
 async function createTypeScriptApiDocs({ outDir }, options = {}) {
-    let globby = await import('globby');
-    globby = globby.globby || globby;
     const currentPath = path.join(process.cwd());
     let otherFiles = [];
     const { includeSubDirDefinitions, ...typeDocOptions } = options;
     if (includeSubDirDefinitions === true) {
         otherFiles = await globby(
-            ['packages/*/*/**/*.d.ts', '!**/*.android.d.ts', '!**/*.ios.d.ts', '!**/*.common.d.ts', '!**/node_modules', '!**/vue/**/*', '!**/angular/**/*', '!**/svelte/**/*', '!**/react/**/*'],
+            [
+                'packages/*/*/**/*.d.ts',
+                '!**/*.android.d.ts',
+                '!**/*.ios.d.ts',
+                '!**/*.common.d.ts',
+                '!**/*-common.d.ts',
+                '!**/node_modules',
+                '!**/vue/**/*',
+                '!**/angular/**/*',
+                '!**/svelte/**/*',
+                '!**/react/**/*'
+            ],
             {
                 absolute: true,
                 followSymbolicLinks: false,
