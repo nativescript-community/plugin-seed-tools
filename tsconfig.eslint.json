@@ -17,6 +17,7 @@
         "../**/.eslintrc.js",
         "../demo-vue/types"
     ],
+    "exclude": ["../src/**/vue3/**/*", "../packages"],
     "references": [
         {
             //Need for IDE
