@@ -9,6 +9,11 @@ const changes = {
 
 const pluginPackageJSON = JSON.parse(fs.readFileSync('./package.json'));
 
+// fix tools link to use portal
+if (pluginPackageJSON.dependencies['@nativescript-community/plugin-seed-tools'] === 'file:tools') {
+    pluginPackageJSON.dependencies['@nativescript-community/plugin-seed-tools'] = 'portal:tools';
+}
+
 function checkAndUpdate(json, field) {
     if (typeof json === 'object' && !Array.isArray(json)) {
         if (pluginPackageJSON[field] === undefined) {
@@ -64,12 +69,12 @@ function handleCommonFile(file, directory) {
             fs.copyFileSync(inFile, destFile);
         } else if (!compareFile(destFile, inFile)) {
             console.log(`File: ${inFile} is different from common version.`);
-            fs. copyFileSync(inFile, destFile);
+            fs.copyFileSync(inFile, destFile);
         }
     }
 }
 
-fs.readdirSync('./tools/common').forEach(file=>handleCommonFile(file, ''));
+fs.readdirSync('./tools/common').forEach((file) => handleCommonFile(file, ''));
 
 const pluginConfig = fs.readFileSync('config.json');
 const pluginConfigJson = JSON.parse(pluginConfig);
