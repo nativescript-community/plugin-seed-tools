@@ -25,6 +25,7 @@
         "types": ["node", "svelte", "vue", "svelte-native"],
         "skipLibCheck": true,
         "baseUrl": "../",
+        "rootDir": "../",
         "outDir": "../packages",
         "plugins": [{ "transform": "@nativescript/webpack/dist/transformers/NativeClass", "type": "raw" }]
     },
@@ -32,6 +33,6 @@
     "exclude": ["node_modules", "platforms"],
     "compileOnSave": false,
     "vueCompilerOptions": {
-        "target": 2.7
+        "target": "auto"
       }
 }

@@ -12,7 +12,8 @@ module.exports = {
         sourceType: 'module',
         project: 'tsconfig.eslint.json',
         warnOnUnsupportedTypeScriptVersion: false,
-        tsconfigRootDir: __dirname
+        tsconfigRootDir: __dirname,
+        EXPERIMENTAL_useProjectService: true
     },
     overrides: [
         {

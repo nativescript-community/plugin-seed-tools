@@ -20,6 +20,10 @@
     "references": [
         {
             //Need for IDE
+            "path": "./tsconfig.vue3.json"
+        },
+        {
+            //Need for IDE
             "path": "../tsconfig.vue3.json"
         }
     ]
