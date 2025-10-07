@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const crypto = require('crypto');
 
 const changes = {
@@ -55,26 +56,34 @@ function compareFile(file1, file2) {
     return hash1 === hash2;
 }
 
-function handleCommonFile(file, directory) {
-    const destFile = `./${directory.replace('_template', '')}${file}`;
-    const inFile = `./tools/common/${directory}${file}`;
+function handleCommonFile(inFile, directory) {
+    const actualDirectory = directory.replace('_template', '');
+    const destFile = path.join(actualDirectory, path.basename(inFile));
+    // const destFile = `./${directory.replace('_template', '')}${file}`;
+    // const inFile = `./tools/common/${directory}${file}`;
+    // console.log('handleCommonFile', inFile, destFile);
     if (fs.lstatSync(inFile).isDirectory()) {
         if (!fs.existsSync(destFile)) {
             fs.mkdirSync(destFile);
         }
-        fs.readdirSync(inFile).forEach((file2) => handleCommonFile(file2, directory + file + '/'));
+        handleCommonFiles(inFile, path.join(actualDirectory, path.basename(inFile), '/'));
     } else {
         if (!fs.existsSync(destFile)) {
-            console.log(`Copying common file over: ${inFile}}`);
+            console.log(`Copying common file over: ${inFile} in ${destFile}`);
             fs.copyFileSync(inFile, destFile);
         } else if (!compareFile(destFile, inFile)) {
-            console.log(`File: ${inFile} is different from common version.`);
+            console.log(`File: ${inFile} is different from common version, copying to ${destFile}`);
             fs.copyFileSync(inFile, destFile);
         }
     }
 }
 
-fs.readdirSync('./tools/common').forEach((file) => handleCommonFile(file, ''));
+function handleCommonFiles(commonFiles, directory) {
+    fs.readdirSync(commonFiles).forEach((file) => handleCommonFile(path.join(commonFiles, file), directory));
+}
+
+handleCommonFiles('./tools/common', '');
+fs.readdirSync('./packages').forEach((file) => handleCommonFiles('./tools/packages_common', path.join('./packages', file)));
 
 const pluginConfig = fs.readFileSync('config.json');
 const pluginConfigJson = JSON.parse(pluginConfig);
