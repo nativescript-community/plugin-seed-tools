@@ -15,20 +15,22 @@ if (pluginPackageJSON.dependencies['@nativescript-community/plugin-seed-tools'] 
     pluginPackageJSON.dependencies['@nativescript-community/plugin-seed-tools'] = 'portal:tools';
 }
 
-function checkAndUpdate(json, field, packageJSON = pluginPackageJSON) {
+function checkAndUpdate(json, field, packageJSON = pluginPackageJSON, replacer) {
     if (typeof json === 'object' && !Array.isArray(json)) {
         if (packageJSON[field] === undefined) {
             packageJSON[field] = {};
         }
         for (const [key, value] of Object.entries(json)) {
             if (typeof packageJSON[field][key] === 'undefined') {
-                packageJSON[field][key] = value;
+                const actualValue = replacer ? replacer(value) : value;
+                packageJSON[field][key] = actualValue;
             } else if (JSON.stringify(value) !== JSON.stringify(packageJSON[field][key])) {
                 if (typeof value === 'object') {
                     packageJSON[field] = {};
                     packageJSON[field][key] = value;
                 } else {
-                    packageJSON[field][key] = value;
+                    const actualValue = replacer ? replacer(value) : value;
+                    packageJSON[field][key] = actualValue;
                 }
             }
         }
@@ -140,7 +142,7 @@ const commonPackagesPackageJSON = JSON.parse(fs.readFileSync('./tools/packages/p
 fs.readdirSync('./packages').forEach((file) => {
     const jsonPath = path.join('./packages', file, 'package.json');
     const packagePackageJSON = JSON.parse(fs.readFileSync(jsonPath));
-    checkAndUpdate(commonPackagesPackageJSON['scripts'], 'scripts', packagePackageJSON);
+    checkAndUpdate(commonPackagesPackageJSON['scripts'], 'scripts', packagePackageJSON, (v) => v.replaceAll('${PACKAGE_NAME}', file));
     if (!pluginAngular) {
         deleteProperty(packagePackageJSON, 'build.angular');
         packagePackageJSON['scripts']['build.all'] = 'npm run build';
