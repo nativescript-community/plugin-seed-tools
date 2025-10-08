@@ -15,25 +15,25 @@ if (pluginPackageJSON.dependencies['@nativescript-community/plugin-seed-tools'] 
     pluginPackageJSON.dependencies['@nativescript-community/plugin-seed-tools'] = 'portal:tools';
 }
 
-function checkAndUpdate(json, field) {
+function checkAndUpdate(json, field, packageJSON = pluginPackageJSON) {
     if (typeof json === 'object' && !Array.isArray(json)) {
-        if (pluginPackageJSON[field] === undefined) {
-            pluginPackageJSON[field] = {};
+        if (packageJSON[field] === undefined) {
+            packageJSON[field] = {};
         }
         for (const [key, value] of Object.entries(json)) {
-            if (typeof pluginPackageJSON[field][key] === 'undefined') {
-                pluginPackageJSON[field][key] = value;
-            } else if (JSON.stringify(value) !== JSON.stringify(pluginPackageJSON[field][key])) {
+            if (typeof packageJSON[field][key] === 'undefined') {
+                packageJSON[field][key] = value;
+            } else if (JSON.stringify(value) !== JSON.stringify(packageJSON[field][key])) {
                 if (typeof value === 'object') {
-                    pluginPackageJSON[field] = {};
-                    pluginPackageJSON[field][key] = value;
+                    packageJSON[field] = {};
+                    packageJSON[field][key] = value;
                 } else {
-                    pluginPackageJSON[field][key] = value;
+                    packageJSON[field][key] = value;
                 }
             }
         }
     } else {
-        pluginPackageJSON[field] = json;
+        packageJSON[field] = json;
     }
 }
 
@@ -83,7 +83,6 @@ function handleCommonFiles(commonFiles, directory) {
 }
 
 handleCommonFiles('./tools/common', '');
-fs.readdirSync('./packages').forEach((file) => handleCommonFiles('./tools/packages_common', path.join('./packages', file)));
 
 const pluginConfig = fs.readFileSync('config.json');
 const pluginConfigJson = JSON.parse(pluginConfig);
@@ -134,3 +133,18 @@ if (!pluginDemos.includes('vue')) {
 
 fs.writeFileSync('./package.json', JSON.stringify(pluginPackageJSON, 0, 4) + '\n');
 console.log('Common files and package.json have been synced.');
+
+// handle packages
+const commonPackagesPackageJSON = JSON.parse(fs.readFileSync('./tools/packages/package.json.template'));
+
+fs.readdirSync('./packages').forEach((file) => {
+    const jsonPath = path.join('./packages', file, 'package.json');
+    const packagePackageJSON = JSON.parse(fs.readFileSync(jsonPath));
+    checkAndUpdate(commonPackageJSON['scripts'], 'scripts', packagePackageJSON);
+    if (!pluginAngular) {
+        deleteProperty(packagePackageJSON, 'build.angular');
+        packagePackageJSON['scripts']['build.all'] = 'npm run build';
+    }
+    fs.writeFileSync(jsonPath, JSON.stringify(packagePackageJSON, 0, 4) + '\n');
+});
+console.log('packages package.json have been synced.');
