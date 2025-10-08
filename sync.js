@@ -143,6 +143,7 @@ fs.readdirSync('./packages').forEach((file) => {
     const jsonPath = path.join('./packages', file, 'package.json');
     const packagePackageJSON = JSON.parse(fs.readFileSync(jsonPath));
     checkAndUpdate(commonPackagesPackageJSON['scripts'], 'scripts', packagePackageJSON, (v) => v.replaceAll('${PACKAGE_NAME}', file));
+    const pluginAngular = fs.existsSync(path.join('./src', file, 'angular'));
     if (!pluginAngular) {
         deleteProperty(packagePackageJSON, 'build.angular');
         packagePackageJSON['scripts']['build.all'] = 'npm run build';
