@@ -140,7 +140,7 @@ const commonPackagesPackageJSON = JSON.parse(fs.readFileSync('./tools/packages/p
 fs.readdirSync('./packages').forEach((file) => {
     const jsonPath = path.join('./packages', file, 'package.json');
     const packagePackageJSON = JSON.parse(fs.readFileSync(jsonPath));
-    checkAndUpdate(commonPackageJSON['scripts'], 'scripts', packagePackageJSON);
+    checkAndUpdate(commonPackagesPackageJSON['scripts'], 'scripts', packagePackageJSON);
     if (!pluginAngular) {
         deleteProperty(packagePackageJSON, 'build.angular');
         packagePackageJSON['scripts']['build.all'] = 'npm run build';
