@@ -31,7 +31,7 @@
         "@vue/runtime-dom": "3.5.22",
         "conventional-changelog-conventionalcommits": "9.1.0",
         "copy-webpack-plugin": "13.0.1",
-        "copyfiles": "2.4.1",
+        "cpy-cli": "6.0.0",
         "eslint": "9.37.0",
         "eslint-config-prettier": "10.1.8",
         "eslint-plugin-json": "4.0.1",
