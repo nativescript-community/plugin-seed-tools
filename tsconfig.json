@@ -29,6 +29,7 @@
         "baseUrl": "../",
         "rootDir": "../",
         "outDir": "../packages",
+        "checkJs": true,
         "plugins": [{ "transform": "@nativescript/webpack/dist/transformers/NativeClass", "type": "raw" }]
     },
     "include": ["../src/**/*", "./references.d.ts", "../references.d.ts", "../tools/references.d.ts", "../demo-vue/types"],
@@ -36,5 +37,5 @@
     "compileOnSave": false,
     "vueCompilerOptions": {
         "target": "auto"
-      }
+    }
 }

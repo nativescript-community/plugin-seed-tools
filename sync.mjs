@@ -1,6 +1,6 @@
-const fs = require('fs');
-const path = require('path');
-const crypto = require('crypto');
+import { createHash } from 'crypto';
+import { copyFileSync, existsSync, lstatSync, mkdirSync, readFileSync, readdirSync, unlinkSync, writeFileSync } from 'fs';
+import { basename, join } from 'path';
 
 const changes = {
     devDependencies: {},
@@ -8,7 +8,12 @@ const changes = {
     ntl: {}
 };
 
-const pluginPackageJSON = JSON.parse(fs.readFileSync('./package.json'));
+function parseFile(filePath) {
+    // @ts-expect-error still working
+    return JSON.parse(readFileSync(filePath));
+}
+
+const pluginPackageJSON = parseFile('./package.json');
 
 // fix tools link to use portal
 if (pluginPackageJSON.dependencies['@nativescript-community/plugin-seed-tools'] === 'file:tools') {
@@ -49,55 +54,63 @@ function deleteProperty(obj, match) {
 }
 
 function compareFile(file1, file2) {
-    const file1Content = fs.readFileSync(file1);
-    const file2Content = fs.readFileSync(file2);
+    const file1Content = readFileSync(file1);
+    const file2Content = readFileSync(file2);
 
-    const hash1 = crypto.createHash('md5').update(file1Content).digest('hex');
-    const hash2 = crypto.createHash('md5').update(file2Content).digest('hex');
+    const hash1 = createHash('md5').update(file1Content).digest('hex');
+    const hash2 = createHash('md5').update(file2Content).digest('hex');
 
     return hash1 === hash2;
 }
 
 function handleCommonFile(inFile, directory) {
     const actualDirectory = directory.replace('_template', '');
-    const destFile = path.join(actualDirectory, path.basename(inFile));
+    const destFile = join(actualDirectory, basename(inFile));
     // const destFile = `./${directory.replace('_template', '')}${file}`;
     // const inFile = `./tools/common/${directory}${file}`;
     // console.log('handleCommonFile', inFile, destFile);
-    if (fs.lstatSync(inFile).isDirectory()) {
-        if (!fs.existsSync(destFile)) {
-            fs.mkdirSync(destFile);
+    if (lstatSync(inFile).isDirectory()) {
+        if (!existsSync(destFile)) {
+            mkdirSync(destFile);
         }
-        handleCommonFiles(inFile, path.join(actualDirectory, path.basename(inFile), '/'));
+        handleCommonFiles(inFile, join(actualDirectory, basename(inFile), '/'));
     } else {
-        if (!fs.existsSync(destFile)) {
+        if (!existsSync(destFile)) {
             console.log(`Copying common file over: ${inFile} in ${destFile}`);
-            fs.copyFileSync(inFile, destFile);
+            copyFileSync(inFile, destFile);
         } else if (!compareFile(destFile, inFile)) {
             console.log(`File: ${inFile} is different from common version, copying to ${destFile}`);
-            fs.copyFileSync(inFile, destFile);
+            copyFileSync(inFile, destFile);
         }
     }
 }
 
 function handleCommonFiles(commonFiles, directory) {
-    fs.readdirSync(commonFiles).forEach((file) => handleCommonFile(path.join(commonFiles, file), directory));
+    readdirSync(commonFiles).forEach((file) => handleCommonFile(join(commonFiles, file), directory));
+}
+
+function removeOldFiles(files) {
+    for (let i = 0; i < files.length; i++) {
+        if (existsSync(files[i])) {
+            unlinkSync(files[i]);
+        }
+    }
 }
 
 handleCommonFiles('./tools/common', '');
+removeOldFiles(['./.eslintrc.js']);
 
-const pluginConfig = fs.readFileSync('config.json');
-const pluginConfigJson = JSON.parse(pluginConfig);
+const pluginConfigJson = parseFile('config.json');
 
 const pluginAngular = pluginConfigJson['angular'];
 const pluginDemos = pluginConfigJson['demos'];
 
-const commonLernaJSON = JSON.parse(fs.readFileSync('./tools/lerna.template.json'));
-let lernaJSON = JSON.parse(fs.readFileSync('./lerna.json'));
+const commonLernaJSON = parseFile('./tools/lerna.template.json');
+let lernaJSON = parseFile('./lerna.json');
 lernaJSON = { version: lernaJSON.version, ...commonLernaJSON };
-fs.writeFileSync('./lerna.json', JSON.stringify(lernaJSON, 0, 4) + '\n');
+writeFileSync('./lerna.json', JSON.stringify(lernaJSON, null, 4) + '\n');
 
-const commonPackageJSON = JSON.parse(fs.readFileSync('./tools/package.json.template'));
+const commonPackageJSON = parseFile('./tools/package.json.template');
 checkAndUpdate(commonPackageJSON['scripts'], 'scripts');
 checkAndUpdate(commonPackageJSON['ntl'], 'ntl');
 checkAndUpdate(commonPackageJSON['workspaces'], 'workspaces');
@@ -133,21 +146,21 @@ if (!pluginDemos.includes('vue')) {
     deleteProperty(pluginPackageJSON, 'demo.vue.clean');
 }
 
-fs.writeFileSync('./package.json', JSON.stringify(pluginPackageJSON, 0, 4) + '\n');
+writeFileSync('./package.json', JSON.stringify(pluginPackageJSON, null, 4) + '\n');
 console.log('Common files and package.json have been synced.');
 
 // handle packages
-const commonPackagesPackageJSON = JSON.parse(fs.readFileSync('./tools/packages/package.json.template'));
+const commonPackagesPackageJSON = parseFile('./tools/packages/package.json.template');
 
-fs.readdirSync('./packages').forEach((file) => {
-    const jsonPath = path.join('./packages', file, 'package.json');
-    const packagePackageJSON = JSON.parse(fs.readFileSync(jsonPath));
+readdirSync('./packages').forEach((file) => {
+    const jsonPath = join('./packages', file, 'package.json');
+    const packagePackageJSON = parseFile(jsonPath);
     checkAndUpdate(commonPackagesPackageJSON['scripts'], 'scripts', packagePackageJSON, (v) => v.replaceAll('${PACKAGE_NAME}', file));
-    const pluginAngular = fs.existsSync(path.join('./src', file, 'angular'));
+    const pluginAngular = existsSync(join('./src', file, 'angular'));
     if (!pluginAngular) {
         deleteProperty(packagePackageJSON, 'build.angular');
         packagePackageJSON['scripts']['build.all'] = 'npm run build';
     }
-    fs.writeFileSync(jsonPath, JSON.stringify(packagePackageJSON, 0, 4) + '\n');
+    writeFileSync(jsonPath, JSON.stringify(packagePackageJSON, null, 4) + '\n');
 });
 console.log('packages package.json have been synced.');
