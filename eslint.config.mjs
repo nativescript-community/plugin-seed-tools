@@ -93,6 +93,7 @@ export default defineConfig(
                     accessibility: 'explicit'
                 }
             ],
+            '@typescript-eslint/no-redundant-type-constituents': 'off',
             '@typescript-eslint/no-misused-promises': 'off',
             '@typescript-eslint/no-unsafe-argument': 'off',
             '@typescript-eslint/no-unsafe-call': 'off',
