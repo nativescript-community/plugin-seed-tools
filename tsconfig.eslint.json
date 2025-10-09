@@ -1,31 +1,30 @@
 {
     "extends": "./tsconfig.json",
     "include": [
-        "./references.d.ts",
-        "../references.d.ts",
         "../src/**/*",
-        "../tools/*.js",
-        "../tools/*.mjs",
-        "../demo-*/types",
-        "../demo-*/app/**/*",
-        "../demo-*/src/**/*",
-        "../demo-snippets/react/**/*",
-        "../demo-snippets/svelte/**/*",
-        "../demo-snippets/angular/**/*",
-        "../demo-snippets/ng/**/*",
-        "../demo-snippets/vue/**/*",
-        "../**/.eslintrc.js",
-        "../demo-vue/types"
+        "../*.mjs",
+        "../*.js",
+        "../*.ts",
+        "../*.json",
+        "../.*.js",
+        "../tools/**/*",
+        "../tools/**/.*.js",
+        "../tools/**/*.json",
+        "../packages/**/*.json",
+        "../demo-*/*.json",
+        "../demo-ng/src/**/*.ts",
+        "../demo-react/src/**/*.ts",
+        "../demo-react/src/**/*.tsx",
+        "../demo-svelte/src/**/*.ts",
+        "../demo-svelte/src/**/*.svelte",
+        "../demo-vue*/src/**/*.ts",
+        "../demo-vue*/src/**/*.vue",
+        "../demo-snippets/react/**/*.tsx",
+        "../demo-snippets/react/**/*.ts",
+        "../demo-snippets/vue*/**/*.vue",
+        "../demo-snippets/vue*/**/*.ts",
+        "../demo-snippets/svelte/**/*.svelte",
+        "../demo-snippets/svelte/**/*.ts",
     ],
-    "exclude": ["../src/**/vue3/**/*", "../packages"],
-    "references": [
-        {
-            //Need for IDE
-            "path": "./tsconfig.vue3.json"
-        },
-        {
-            //Need for IDE
-            "path": "../tsconfig.vue3.json"
-        }
-    ]
+    "exclude": ["node_modules", "platforms"]
 }
