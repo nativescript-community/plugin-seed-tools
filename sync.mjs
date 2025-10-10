@@ -16,9 +16,11 @@ function parseFile(filePath) {
 const pluginPackageJSON = parseFile('./package.json');
 
 // fix tools link to use portal
-if (pluginPackageJSON.dependencies['@nativescript-community/plugin-seed-tools'] === 'file:tools') {
+if (pluginPackageJSON.dependencies?.['@nativescript-community/plugin-seed-tools'] === 'file:tools') {
     pluginPackageJSON.dependencies['@nativescript-community/plugin-seed-tools'] = 'portal:tools';
-}
+} else if (pluginPackageJSON.devDependencies?.['@nativescript-community/plugin-seed-tools'] === 'file:tools') {
+    pluginPackageJSON.devDependencies['@nativescript-community/plugin-seed-tools'] = 'portal:tools';
+} 
 
 function checkAndUpdate(json, field, packageJSON = pluginPackageJSON, replacer) {
     if (typeof json === 'object' && !Array.isArray(json)) {
