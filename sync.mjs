@@ -66,9 +66,6 @@ function compareFile(file1, file2) {
 function handleCommonFile(inFile, directory) {
     const actualDirectory = directory.replace('_template', '');
     const destFile = join(actualDirectory, basename(inFile));
-    // const destFile = `./${directory.replace('_template', '')}${file}`;
-    // const inFile = `./tools/common/${directory}${file}`;
-    // console.log('handleCommonFile', inFile, destFile);
     if (lstatSync(inFile).isDirectory()) {
         if (!existsSync(destFile)) {
             mkdirSync(destFile);
