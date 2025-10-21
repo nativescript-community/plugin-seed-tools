@@ -125,6 +125,7 @@ export default defineConfig(
             '@typescript-eslint/no-unsafe-function-type': 'off', // '@stylistic/type-annotation-spacing': 'error',
             '@typescript-eslint/prefer-promise-reject-errors': 'off',
             '@typescript-eslint/prefer-destructuring': 'off',
+            '@typescript-eslint/no-empty-object-type': 'off',
             // '@stylistic/semi': ['error'],
             // '@stylistic/member-delimiter-style': 'error',
             // '@stylistic/quotes': [
