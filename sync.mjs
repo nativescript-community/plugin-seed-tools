@@ -154,7 +154,10 @@ console.log('Common files and package.json have been synced.');
 // handle packages
 const commonPackagesPackageJSON = parseFile('./tools/packages/package.json.template');
 
+
 readdirSync('./packages').forEach((file) => {
+    handleCommonFiles('./tools/packages/common', join('./packages', file))
+
     const jsonPath = join('./packages', file, 'package.json');
     const packagePackageJSON = parseFile(jsonPath);
     checkAndUpdate(commonPackagesPackageJSON['scripts'], 'scripts', packagePackageJSON, (v) => v.replaceAll('${PACKAGE_NAME}', file));
