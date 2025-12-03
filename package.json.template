@@ -44,6 +44,9 @@
         "sync": "node ./tools/sync.mjs",
         "update": "node ./tools/update.js"
     },
+    "resolutions": {
+        "@vue/devtools": "npm:empty-npm-package@*"
+    },
     "ntl": {
         "descriptions": {
             "build": "Build the plugin",
