@@ -16,6 +16,7 @@ export default defineConfig(
     globalIgnores([
         '.nx/',
         '.yarn/',
+        '**/src/**/typings/**/*.d.ts',
         '**/node_modules/**',
         '**/dist/**',
         '**/fixtures/**',
@@ -125,6 +126,8 @@ export default defineConfig(
             '@typescript-eslint/no-unsafe-function-type': 'off', // '@stylistic/type-annotation-spacing': 'error',
             '@typescript-eslint/prefer-promise-reject-errors': 'off',
             '@typescript-eslint/prefer-destructuring': 'off',
+            '@typescript-eslint/no-empty-object-type': 'off',
+            '@typescript-eslint/restrict-plus-operands': 'off',
             // '@stylistic/semi': ['error'],
             // '@stylistic/member-delimiter-style': 'error',
             // '@stylistic/quotes': [
@@ -360,7 +363,10 @@ export default defineConfig(
             'vue/html-indent': 'off',
             'prettier/prettier': 'warn',
             'vue/custom-event-name-casing': 'off',
-            'vue/multi-word-component-names': 'off'
+            'vue/multi-word-component-names': 'off',
+            'vue/component-options-name-casing': 'off',
+            'vue/attribute-hyphenation': 'off',
+            'vue/v-on-event-hyphenation': 'off'
         }
     },
     {
