@@ -24,7 +24,7 @@
         "resolveJsonModule": true,
         "esModuleInterop": true,
         "lib": ["esnext", "es2017", "dom"],
-        "types": ["node", "svelte", "vue", "svelte-native"],
+        "types": ["node", "svelte", "vue", "@nativescript-community/svelte-native"],
         "jsx": "react",
         "baseUrl": "../",
         "rootDir": "../",
