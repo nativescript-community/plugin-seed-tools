@@ -32,7 +32,7 @@
         "checkJs": true,
         "plugins": [{ "transform": "@nativescript/webpack/dist/transformers/NativeClass", "type": "raw" }]
     },
-    "include": ["../src/**/*", "./references.d.ts", "../references.d.ts", "../tools/references.d.ts", "../demo-vue/types"],
+    "include": ["../src/**/*", "./references.d.ts", "../references.d.ts", "../tools/references.d.ts", "../demo-snippets/**/*", "../demo-vue/types"],
     "exclude": ["node_modules", "platforms", "hooks"],
     "compileOnSave": false,
     "vueCompilerOptions": {
