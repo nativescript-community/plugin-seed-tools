@@ -44,7 +44,7 @@
         "globby": "15.0.0",
         "husky": "9.1.7",
         "nativescript-vue": "2.9.3",
-        "nativescript-vue3": "npm:nativescript-vue@3.0.1",
+        "nativescript-vue3": "npm:nativescript-vue@3.1.2",
         "ng-packagr": "19.2.2",
         "ntl": "5.1.0",
         "package-json-merge": "0.0.1",
