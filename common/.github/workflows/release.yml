@@ -15,7 +15,8 @@ on:
 
 jobs:
   release:
-    runs-on: ubuntu-latest
+    # plugins with native libraries to build for iOS set the repository variable RELEASE_RUNNER to macos-latest
+    runs-on: ${{ vars.RELEASE_RUNNER || 'ubuntu-latest' }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -42,7 +43,7 @@ jobs:
           email: dev@akylas.fr
       
       - name: install jq
-        run: sudo apt install jq
+        run: command -v jq > /dev/null || sudo apt-get install -y jq || brew install jq
       
       - name: Enable CorePack
         run: |
