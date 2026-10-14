@@ -46,7 +46,14 @@ async function createTypeScriptApiDocs({ outDir }, options = {}) {
         deep: 2,
         cwd: currentPath
     });
-    const actualTypings = files.map((p) => path.relative(path.join(currentPath, ''), path.join(path.dirname(p), JSON.parse(fs.readFileSync(p)).typings)));
+    const actualTypings = files
+        .map((p) => {
+            const typings = JSON.parse(fs.readFileSync(p)).typings;
+            if (typings) {
+                return path.relative(path.join(currentPath, ''), path.join(path.dirname(p), typings));
+            }
+        })
+        .filter((s) => !!s);
     const allFiles = actualTypings.concat(otherFiles);
     console.log('createTypeScriptApiDocs', typeDocOptions, currentPath);
     const app = await td.Application.bootstrapWithPlugins(
