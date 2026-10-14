@@ -15,8 +15,8 @@ on:
 
 jobs:
   release:
-    # plugins with native libraries to build for iOS set the repository variable RELEASE_RUNNER to macos-latest
-    runs-on: ${{ vars.RELEASE_RUNNER || 'ubuntu-latest' }}
+    # macOS builds iOS native libraries; a plugin that does not need it can set the repository variable RELEASE_RUNNER (e.g. ubuntu-latest)
+    runs-on: ${{ vars.RELEASE_RUNNER || 'macos-latest' }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
