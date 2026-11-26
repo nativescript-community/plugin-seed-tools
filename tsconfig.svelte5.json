@@ -1,0 +1,18 @@
+{
+    // Builds the `svelte5/` bindings of a plugin against svelte-native 5 + svelte 5.
+    // The regular build (tsconfig.json) keeps svelte-native 4 + svelte 4 for the `svelte/` bindings,
+    // so a plugin package extends this config in its own `tsconfig.svelte5.json` and excludes `svelte5/` from its main one
+    // (same idea as `tsconfig.vue3.json` with nativescript-vue 3).
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "composite": true,
+        "baseUrl": "../",
+        "types": ["node"],
+        "paths": {
+            "svelte": ["./node_modules/svelte5"],
+            "svelte/*": ["./node_modules/svelte5/*"],
+            "@nativescript-community/svelte-native": ["./node_modules/svelte-native5"],
+            "@nativescript-community/svelte-native/*": ["./node_modules/svelte-native5/*"]
+        }
+    }
+}
